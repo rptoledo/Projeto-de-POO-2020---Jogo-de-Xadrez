@@ -81,7 +81,7 @@ public class Tabuleiro
     
     // Verifica se a casa esta ocupada e retorna o simbolo da peca que esta nela, em caso positivo ou a cor da casa, em caso negativo:
     /* Vai ser usada na funcao imprimeTabuleiro(), para definir o que sera impresso. */
-    public char checaOcupacao(int lin, int col)
+    private char checaOcupacao(int lin, int col)
     {
         // Se a casa estiver vazia, retorno a cor da casa:
         if (CASAS[lin][col].getPecaPosicao() == null)
@@ -114,8 +114,6 @@ public class Tabuleiro
         // pecaMov eh a peca que o jogador esta tentando movimentar:
         Peca pecaMov = CASAS[linhaOrigem][colunaOrigem].getPecaPosicao();
         
-        int t1, t2;
-        
         // Percorro todo o tabuleiro para fazer as verificacoes:
         for (int linDest = 0; linDest <= 7; linDest++)
         {
@@ -133,16 +131,12 @@ public class Tabuleiro
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                 }
                 
-                /* <<< Checagem do caminho para Peoes Pretos: >>> */
+/* <<< Checagem do caminho para Peoes Pretos: >>> */
                 if (pecaMov.simbolo == 'P')
                 {
     /* [Mov. Sul] -> A linhaOrigem eh maior que as linhas da proximas 2 casas ao sul.
@@ -154,11 +148,7 @@ public class Tabuleiro
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                 }
@@ -175,11 +165,7 @@ public class Tabuleiro
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                     
@@ -192,11 +178,7 @@ public class Tabuleiro
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                     
@@ -209,11 +191,7 @@ public class Tabuleiro
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                     
@@ -226,11 +204,7 @@ public class Tabuleiro
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                 }
@@ -244,16 +218,12 @@ public class Tabuleiro
                          e colunas de uma casa eh igual a soma das linhas e colunas de qualquer outra casa. */
                     if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
                      && colunaDestino < colDest && colDest < colunaOrigem // colunaDestino < colDest < colunaOrigem.
-                     && (linhaOrigem + colunaOrigem) == (linDest + colDest)) // Apenas a diagonal do movimento sera checada.
+                     && (linhaOrigem + colunaOrigem) == (linDest + colDest) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                     
@@ -263,16 +233,12 @@ public class Tabuleiro
                         e colunas de uma casa eh igual a soma das linhas e colunas de qualquer outra casa. */
                     if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
                      && colunaOrigem < colDest && colDest < colunaDestino // colunaOrigem < colDest < colunaDestino.
-                     && (linhaOrigem + colunaOrigem) == (linDest + colDest)) // Apenas a diagonal do movimento sera checada.
+                     && (linhaOrigem + colunaOrigem) == (linDest + colDest) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                     
@@ -282,16 +248,12 @@ public class Tabuleiro
                          entre linhaOrigem e linDest e entre colunaOrigem e colDest sao equivalentes. */
                     if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
                      && colunaOrigem < colDest && colDest < colunaDestino // colunaOrigem < colDest < colunaDestino.
-                     && (linhaOrigem - linDest) == (colunaOrigem - colDest)) // Apenas a diagonal do movimento sera checada.
+                     && (linhaOrigem - linDest) == (colunaOrigem - colDest) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                     
@@ -301,16 +263,12 @@ public class Tabuleiro
                          entre linhaOrigem e linDest e entre colunaOrigem e colDest sao equivalentes. */
                     if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
                      && colunaDestino < colDest && colDest < colunaOrigem // colunaDestino < colDest < colunaOrigem.
-                     && (linhaOrigem - linDest) == (colunaOrigem - colDest)) // Apenas a diagonal do movimento sera checada.
+                     && (linhaOrigem - linDest) == (colunaOrigem - colDest) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
                         if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            t1 = linDest + 1;
-                            t2 = colDest + 97;
-                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
-                            
-                            //return false;
+                            return false;
                         }
                     }
                 }
@@ -343,6 +301,89 @@ public class Tabuleiro
         return true;
     }
     
+    // Realiza a movimentacao das pecas (esse metodo so eh chamado depois de todas as checagens retornarem positivamente):
+    public boolean movimenta(Tabuleiro MESA, boolean jogoRetomado, int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino)
+    {
+        // Se houver uma peca na posicao destino:
+        if (pecaDestino != null)
+        {
+            // Se a captura nao foi realizada, retorna false:
+            if (capturaPeca(MESA, linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false)
+            {
+                return false;
+            }
+        }
+
+        // Ocupa a casa de destino com a Peca da origem (atributo pecaPosicao recebe pecaOrigem):
+        MESA.CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
+        // Deixa a casa de origem vazia (atributo pecaPosicao recebe null):
+        MESA.CASAS[linOrigem][colOrigem].setPecaPosicao(null);
+
+        // Registra quando um Peao realiza seu primeiro movimento:
+        moveuPeao(MESA, linDestino, colDestino);
+
+        // Se o jogo nao estiver sendo carregado, imprimo uma confirmacao da jogada e o tabuleiro:
+        if (jogoRetomado == false)
+        {
+            System.out.println("Jogada realizada com sucesso!\n");
+            imprimeTabuleiro();
+        }
+        
+        return true;
+    }
+    
+    // Realiza a captura de pecas, retornando true em caso de sucesso e false, caso contrário:
+    public boolean capturaPeca(Tabuleiro MESA, int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino)
+    {
+        // Captura de um Peao Branco:
+        if (pecaOrigem.simbolo == 'p')
+        {
+            /* -> Como para os peoes brancos a captura deve ser feita apenas uma casa ao norte,
+                 a linOrigem eh uma unidade menor que a linDestino.
+               -> Como a captura deve ser feita apenas uma casa a oeste ou a leste, a colOrigem
+                 eh uma unidade maior ou uma unidade menor que a colDestino.
+                 Uso Math.abs(), para que tanto 1 quanto -1 sejam convertidos em 1. */
+            // Esta fora da area de captura do Peao Branco:
+            if ( ( (linOrigem - linDestino) != -1) && (Math.abs(colOrigem - colDestino) != 1) )
+            {
+                return false;
+            }
+        }
+        // Captura de um Peao Preto:
+        else if (pecaOrigem.simbolo == 'P')
+        {
+            /* -> Como para os peoes pretos a captura deve ser feita apenas uma casa ao sul,
+                 a linOrigem eh uma unidade maior que a linDestino.
+               -> Como a captura deve ser feita apenas uma casa a oeste ou a leste, a colOrigem
+                 eh uma unidade menor ou uma unidade maior que a colDestino.
+                 Uso Math.abs(), para que tanto -1 quanto 1 sejam convertidos em 1. */
+            // Esta fora da area de captura do Peao Preto:
+            if ( ( (linOrigem - linDestino) != 1) && (Math.abs(colOrigem - colDestino) != 1) )
+            {
+                return false;
+            }
+        }
+        
+        // O atributo capturado da Peca do destino eh mudado pra true:
+        pecaDestino.setCapturado();
+
+        return true;
+    }
+    
+    // Registra quando um Peao realiza seu primeiro movimento, mudando o atributo primeiroMov para false:
+    private void moveuPeao(Tabuleiro MESA, int lin, int col)
+    {
+        int simbolo = MESA.CASAS[lin][col].getPecaPosicao().desenho();
+
+        // Se o deseho do simbolo for `p` ou `P`, significa que eh um peao:
+        if (simbolo == 'p' || simbolo == 'P')
+        {
+            // Faco downcast de Peca para Peao, de modo que consigo acessar o metodo setPrimeiroMov(), da classe Peao:
+            Peao peaoGenerico = (Peao) MESA.CASAS[lin][col].getPecaPosicao();
+            peaoGenerico.setPrimeiroMov();
+        }
+    }
+    
     
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
@@ -356,11 +397,11 @@ public class Tabuleiro
         {
             for (int j = 0; j <= 7; j++)
             {
-                if (((j + i) % 2) == 1) // Casas brancas (espaco em branco):
+                if ( ( (j + i) % 2) == 1) // Casas brancas (espaco em branco):
                 {
                     this.CASAS[i][j] = new Posicao(i + 1, (char) (97 + j), ' ');
                 }
-                else if (((j + i) % 2) == 0) // Casas pretas (asterisco):
+                else if ( ( (j + i) % 2) == 0) // Casas pretas (asterisco):
                 {
                     this.CASAS[i][j] = new Posicao(i + 1, (char) (97 + j), '*');
                 }

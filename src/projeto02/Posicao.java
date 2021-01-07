@@ -43,7 +43,7 @@ public class Posicao
     // Verifica se a Posicao que sera criada eh valida, levando em consideracao linha, coluna e cor:
     private boolean checaPosicao(int linha, char coluna, char cor)
     {
-        if (linha >= 1 && linha <= 8 && (int) coluna >= 97 && (int) coluna <= 104 && (cor == ' ' || cor == '*'))
+        if (linha >= 1 && linha <= 8 && (int) coluna >= 97 && (int) coluna <= 104 && (cor == ' ' || cor == '*') )
         {
             return true;
         }
@@ -70,7 +70,7 @@ public class Posicao
         }
         catch(Error e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() );
             System.exit(-1); // Termina o programa devido a um erro (-1) na passagem dos parametros do construtor.
         }
         

@@ -42,13 +42,13 @@ public class Bispo extends Peca
     {
         // Sentido da Diagonal Secundária:
         // Se as distancias entre a (linhaOrigem e linhaDestino) e a (colunaOrigem e colunaDestino) sao iguais:
-        if ((linhaDestino - linhaOrigem) ==  (colunaDestino - colunaOrigem))
+        if ( (linhaDestino - linhaOrigem) ==  (colunaDestino - colunaOrigem) )
         {
             return true;
         }
         // Sentido da Diagonal Principal:
         // Se as distancias entre a (linhaOrigem e linhaDestino) e a (colunaOrigem e colunaDestino) sao iguais, com sinal invertido:
-        else if ((linhaDestino - linhaOrigem) ==  - (colunaDestino - colunaOrigem))
+        else if ( (linhaDestino - linhaOrigem) ==  - (colunaDestino - colunaOrigem) )
         {
             return true;
         }
@@ -78,7 +78,7 @@ public class Bispo extends Peca
         }
         catch(Error e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() );
             System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
         }
         

@@ -70,7 +70,7 @@ public class Torre extends Peca
         }
         catch(Error e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() );
             System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
         }
         

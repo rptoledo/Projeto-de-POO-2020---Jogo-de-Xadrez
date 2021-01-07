@@ -87,7 +87,7 @@ public class Jogador
         
         this.NOME = nomeTestado;
         
-        if (!corPecas.equals("brancas") && !corPecas.equals("pretas"))
+        if (!corPecas.equals("brancas") && !corPecas.equals("pretas") )
         {
             while (corPecas.compareTo("brancas") != 0 && corPecas.compareTo("pretas") != 0)
             {

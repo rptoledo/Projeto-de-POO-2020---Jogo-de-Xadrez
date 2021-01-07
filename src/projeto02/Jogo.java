@@ -149,12 +149,12 @@ public class Jogo {
     private boolean xJogada(String jogada, int alt, boolean jogoRetomado) {
         try
         {
-            if (jogada.equals("salvar"))
+            if (jogada.equals("salvar") )
             {
                 this.salvaJogo();
                 return false; // Serve para nao incrementar, quando salvar o jogo.
             }
-            else if (jogada.equals("fechar"))
+            else if (jogada.equals("fechar") )
             {
                 System.exit(0); // Termina o programa com sucesso (representado por 0).
             }
@@ -164,14 +164,14 @@ public class Jogo {
                 if (checaFormato(jogada) == true)
                 {
                     // Converto os valores referentes as linhas e colunas que foram passadas:
-                    /* Fiz (linha - 49) e typecast ((int) coluna - 97), para lidar com a matriz do tabuleiro.
+                    /* Fiz (linha - 49) e typecast ( (int) coluna - 97), para lidar com a matriz do tabuleiro.
                         Desse modo, temos linhas de (0 a 7) e colunas de (0 a 7). */
                     int linOrigem = jogada.charAt(1) - 49;
                     int colOrigem = (int) (jogada.charAt(4) - 97);
-                    Peca pecaOrigem = MESA.CASAS[jogada.charAt(1) - 49][((int) jogada.charAt(4) - 97)].getPecaPosicao();
+                    Peca pecaOrigem = MESA.CASAS[jogada.charAt(1) - 49][( (int) jogada.charAt(4) - 97)].getPecaPosicao();
                     int linDestino = jogada.charAt(11) - 49;
                     int colDestino = (int) (jogada.charAt(14) - 97);
-                    Peca pecaDestino = MESA.CASAS[jogada.charAt(11) - 49][((int) jogada.charAt(14) - 97)].getPecaPosicao();
+                    Peca pecaDestino = MESA.CASAS[jogada.charAt(11) - 49][( (int) jogada.charAt(14) - 97)].getPecaPosicao();
 
                     // Esta fora dos limites do tabuleiro:
                     if (MESA.checaTabuleiro(linDestino, colDestino, linDestino, colDestino) == false)
@@ -181,49 +181,29 @@ public class Jogo {
                     // Esta dentro dos limites do tabuleiro, a jogada pode ser realizada:
                     else
                     {
-                        if (MESA.CASAS[linOrigem][colOrigem].getPecaPosicao() == null)
+                        // Nao ha nenhuma peca na posicao de origem:
+                        if (pecaOrigem == null)
                         {
                             throw new Error("Voce nao possui uma peca nessa posicao!\n");
                         }
-                        else if (((alt % 2) == 0 && MESA.CASAS[linOrigem][colOrigem].getPecaPosicao().getCor() == "prt")
-                                || ((alt % 2) == 1 && MESA.CASAS[linOrigem][colOrigem].getPecaPosicao().getCor() == "brc"))
+                        // Ha uma peca na posicao de origem, mas ela eh do adversario:
+                        else if ( ( (alt % 2) == 0 && pecaOrigem.getCor() == "prt") || ( (alt % 2) == 1 && pecaOrigem.getCor() == "brc") )
                         {
                             throw new Error("Essa peca eh do seu adversario!\n");
                         }
-                        else if (MESA.CASAS[linDestino][colDestino].getPecaPosicao() != null
-                                && (((alt % 2) == 0 && MESA.CASAS[linDestino][colDestino].getPecaPosicao().getCor() == "brc")
-                                || ((alt % 2) == 1 && MESA.CASAS[linDestino][colDestino].getPecaPosicao().getCor() == "prt")))
+                        // O jogador tem uma peca sua na posicao de origem, mas esta tentando capturar sua propria peca:
+                        else if (pecaDestino != null && ( ( (alt % 2) == 0 && pecaDestino.getCor() == "brc") || ( (alt % 2) == 1 && pecaDestino.getCor() == "prt") ) )
                         {
                             throw new Error("Voce esta tentando capturar sua propria peca!\n");
                         }
-                        // Realiza todas as checagens relacionadas ao tabuleiro:
+                        // Pelo menos uma das checagens relacionadas ao tabuleiro retornou negativamente:
                         else if (MESA.checaTudo(linOrigem, colOrigem, linDestino, colDestino) == false)
                         {
                             throw new Error("Movimentação invalida!\n");
                         }
-                        // Se houver uma peca no destino, mudo capturado pra true, caso contrario, nao faco nada:
-                        else if (MESA.CASAS[linDestino][colDestino].getPecaPosicao() != null)
+                        else if(MESA.movimenta(MESA, jogoRetomado, linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false)
                         {
-                            // O atributo capturado da Peca do destino eh mudado pra true:
-                            pecaDestino.setCapturado();
-                        }
-                        
-                        // Ocupo a casa de destino com a Peca da origem (atributo pecaPosicao recebe pecaOrigem):
-                        MESA.CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
-                        
-                        // Deixo a casa de origem vazia (atributo pecaPosicao recebe null):
-                        MESA.CASAS[linOrigem][colOrigem].setPecaPosicao(null);
-                        
-                        // Registra quando um Peao realiza seu primeiro movimento:
-                        moveuPeao(MESA, linDestino, colDestino);
-                        
-                        // Se o jogo nao estiver sendo carregado, imprimo uma confirmacao da jogada e o tabuleiro:
-                        if (jogoRetomado == false)
-                        {
-                            System.out.println("Jogada realizada com sucesso!\n");
-                            
-                            // Depois de uma jogada realizada com sucesso, imprime o tabuleiro:
-                            this.MESA.imprimeTabuleiro();
+                            throw new Error("Captura ivalida!\n");
                         }
                     }
                 }
@@ -241,7 +221,7 @@ public class Jogo {
             }
             
             // Armazena as jogadas validas que serao salvas no arquivo:
-            if (!jogada.equals("salvar"))
+            if (!jogada.equals("salvar") )
             {
                 this.jogadasValidas.add(jogada);
             }
@@ -250,7 +230,8 @@ public class Jogo {
         }
         catch (Error e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() );
+            
             return false;
         }
     }
@@ -272,12 +253,12 @@ public class Jogo {
     }
 
     // Imprime um menu com o numero da rodada e todas as pecas que ja foram capturadas:
-    public void imprimeMenu(Jogador jogador, int alt)
+    private void imprimeMenu(Jogador jogador, int alt)
     {
         // A funcao Math.floor arredonda as casas decimais para baixo.
         /* Somo 1 a alt para que a primeira jogada do JOGADOR1 seja contabilizada
             e somo 2 a alt para que a rodada inicial seja 1, ao inves de 0. */
-        System.out.println("\nRodada: " + (int) Math.floor((alt + 2) / 2) + " (Aguardando " + jogador.getCorPecas() + ")");
+        System.out.println("\nRodada: " + (int) Math.floor( (alt + 2) / 2) + " (Aguardando " + jogador.getCorPecas() + ")");
 
         // Imprime as pecas de cada jogador que ja foram capturadas:
         this.imprimeCapturadas(JOGADOR1);
@@ -285,7 +266,7 @@ public class Jogo {
     }
 
     // Imprime todas as pecas de um jogador especifico, que ja foram capturadas:
-    public void imprimeCapturadas(Jogador jogador)
+    private void imprimeCapturadas(Jogador jogador)
     {
         ArrayList<String> pecasCapturadas = new ArrayList();
 
@@ -295,32 +276,18 @@ public class Jogo {
         // Se o jogador que joga com as pecas brancas, i recebe 0, caso contrario, i recebe 16:
         for (int i = (jogador.getCorPecas() == "brancas") ? 0 : 16; i < n; i++)
         {
-            if (pecas[i].isCapturado())
+            if (pecas[i].isCapturado() )
             {
                 // Coloco "" + para converter o desenho da Peca de char para String:
-                pecasCapturadas.add("" + pecas[i].desenho());
+                pecasCapturadas.add("" + pecas[i].desenho() );
             }
         }
 
         System.out.println("Pecas " + jogador.getCorPecas() + " capturadas: " + pecasCapturadas);
     }
 
-    // Registra quando um Peao realiza seu primeiro movimento, mudando o atributo primeiroMov para false:
-    public void moveuPeao(Tabuleiro MESA, int lin, int col)
-    {
-        int simbolo = MESA.CASAS[lin][col].getPecaPosicao().desenho();
-
-        // Se o deseho do simbolo for `p` ou `P`, significa que eh um peao:
-        if (simbolo == 'p' || simbolo == 'P')
-        {
-            // Faco downcast de Peca para Peao, de modo que consigo acessar o metodo setPrimeiroMov(), da classe Peao:
-            Peao peaoGenerico = (Peao) MESA.CASAS[lin][col].getPecaPosicao();
-            peaoGenerico.setPrimeiroMov();
-        }
-    }
-
     // Serve para salvar o jogo:
-    public void salvaJogo()
+    private void salvaJogo()
     {
         try
         {
@@ -336,7 +303,7 @@ public class Jogo {
             int n = this.jogadasValidas.size();
             for (int i = 0; i < n; i++)
             {
-                pw.println(this.jogadasValidas.get(i));
+                pw.println(this.jogadasValidas.get(i) );
             }
             pw.close();
         }
@@ -347,7 +314,7 @@ public class Jogo {
     }
 
     // Serve para retomar o jogo da onde ele foi parado:
-    public void retomaJogo(ArrayList<String> jogadasValidasAux)
+    private void retomaJogo(ArrayList<String> jogadasValidasAux)
     {
         try
         {
@@ -361,7 +328,7 @@ public class Jogo {
 
             String str;
 
-            while ((str = br.readLine()) != null)
+            while ( (str = br.readLine() ) != null)
             {
                 jogadasValidasAux.add(str);
             }
@@ -377,7 +344,7 @@ public class Jogo {
         }
     }
     
-    public char desejaContinuar()
+    private char desejaContinuar()
     {
         Scanner leEscolha = new Scanner(System.in);
         
@@ -390,17 +357,7 @@ public class Jogo {
         return escolha;
     }
     
-    /*public final static void limparSaida() {
-        try {
-            Robot robot = new Robot();
-            robot.setAutoDelay(10);
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_L);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyRelease(KeyEvent.VK_L);
-        } catch (AWTException ex) {
-        }
-    }*/
+    
  /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */

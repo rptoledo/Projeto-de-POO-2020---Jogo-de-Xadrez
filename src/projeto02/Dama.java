@@ -46,7 +46,7 @@ public class Dama extends Peca
             return true;
         }
         // Movimento de Bispo:
-        else if (Math.abs(linhaDestino - linhaOrigem) == Math.abs(colunaDestino - colunaOrigem))
+        else if (Math.abs(linhaDestino - linhaOrigem) == Math.abs(colunaDestino - colunaOrigem) )
         {
             return true;
         }
@@ -76,7 +76,7 @@ public class Dama extends Peca
         }
         catch(Error e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() );
             System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
         }
         
