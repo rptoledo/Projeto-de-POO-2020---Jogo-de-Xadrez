@@ -50,15 +50,22 @@ public class Jogo {
     public void alternaJogadas()
     {
         boolean jogoRetomado = false;
-        // Serve para carregar o jogo na variavel jogadasValidas2:
+        // Serve para carregar o jogo na variavel jogadasValidasAux:
         ArrayList<String> jogadasValidasAux = new ArrayList();
         
-        if (jogadasValidas.isEmpty() && desejaContinuar() == 's')
+        char escolhaCont = desejaContinuar();
+        
+        if (jogadasValidas.isEmpty() && escolhaCont == 's')
         {
             retomaJogo(jogadasValidasAux);
         }
         else
         {
+            if (jogadasValidas.isEmpty() && escolhaCont!= 'n')
+            {
+                System.out.println("A escolha eh invalida.");
+            }
+            
             jogoRetomado = true;
             jogadasValidas.clear();
             
@@ -137,14 +144,15 @@ public class Jogo {
     {
         return xJogada(jogada, alt, impressaoJogoRetomado);
     }
-
+    
+    // Serve para realizar a jogada, caso ela seja valida, ou entao informar o erro:
     private boolean xJogada(String jogada, int alt, boolean jogoRetomado) {
         try
         {
             if (jogada.equals("salvar"))
             {
                 this.salvaJogo();
-                return false; // Serve para nao incrementar quando salvar o jogo.
+                return false; // Serve para nao incrementar, quando salvar o jogo.
             }
             else if (jogada.equals("fechar"))
             {
@@ -180,7 +188,6 @@ public class Jogo {
                         else if (((alt % 2) == 0 && MESA.CASAS[linOrigem][colOrigem].getPecaPosicao().getCor() == "prt")
                                 || ((alt % 2) == 1 && MESA.CASAS[linOrigem][colOrigem].getPecaPosicao().getCor() == "brc"))
                         {
-                            System.out.println(jogada + " " + alt);
                             throw new Error("Essa peca eh do seu adversario!\n");
                         }
                         else if (MESA.CASAS[linDestino][colDestino].getPecaPosicao() != null
@@ -413,68 +420,68 @@ public class Jogo {
         /*--> CRIA E ADICIONA AS 32 PECAS AS SUAS RESPECTIVAS CASAS: <--*/
         this.pecas = new Peca[32];
 
-        /*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
-        // 8 Peoes Brancos:
+/*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
+    // 8 Peoes Brancos:
         for (int id = 0; id < 8; id++) {
             this.pecas[id] = new Peao("brc");
             this.MESA.CASAS[1][id].setPecaPosicao(pecas[id]);
         }
 
-        // Torre Branca (Esquerda):
+    // Torre Branca (Esquerda):
         this.pecas[8] = new Torre("brc");
         this.MESA.CASAS[0][0].setPecaPosicao(pecas[8]);
-        // Torre Branca (Direita):
+    // Torre Branca (Direita):
         this.pecas[9] = new Torre("brc");
         this.MESA.CASAS[0][7].setPecaPosicao(pecas[9]);
-        // Cavalo Branco (Esquerda):
+    // Cavalo Branco (Esquerda):
         this.pecas[10] = new Cavalo("brc");
         this.MESA.CASAS[0][1].setPecaPosicao(pecas[10]);
-        // Cavalo Branco (Direita):
+    // Cavalo Branco (Direita):
         this.pecas[11] = new Cavalo("brc");
         this.MESA.CASAS[0][6].setPecaPosicao(pecas[11]);
-        // Bispo Branco (Esquerda):
+    // Bispo Branco (Esquerda):
         this.pecas[12] = new Bispo("brc");
         this.MESA.CASAS[0][2].setPecaPosicao(pecas[12]);
-        // Bispo Branco (Direita):
+    // Bispo Branco (Direita):
         this.pecas[13] = new Bispo("brc");
         this.MESA.CASAS[0][5].setPecaPosicao(pecas[13]);
-        // Dama Branca:
+    // Dama Branca:
         this.pecas[14] = new Dama("brc");
         this.MESA.CASAS[0][3].setPecaPosicao(pecas[14]);
-        // Rei Branco:
+    // Rei Branco:
         this.pecas[15] = new Rei("brc");
         this.MESA.CASAS[0][4].setPecaPosicao(pecas[15]);
 
-        /*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
-        // 8 Peoes Pretos:
+/*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
+    // 8 Peoes Pretos:
         for (int id = 16; id < 24; id++) {
             this.pecas[id] = new Peao("prt");
             // Faco (id - 16) pois a primeira posicao da matriz eh 0 e o id comeca em 16:
             this.MESA.CASAS[6][id - 16].setPecaPosicao(pecas[id]);
         }
 
-        // Torre Preta (Esquerda):
+    // Torre Preta (Esquerda):
         this.pecas[24] = new Torre("prt");
         this.MESA.CASAS[7][0].setPecaPosicao(pecas[24]);
-        // Torre Preta (Direita):
+    // Torre Preta (Direita):
         this.pecas[31] = new Torre("prt");
         this.MESA.CASAS[7][7].setPecaPosicao(pecas[31]);
-        // Cavalo Preto (Esquerda):
+    // Cavalo Preto (Esquerda):
         this.pecas[25] = new Cavalo("prt");
         this.MESA.CASAS[7][1].setPecaPosicao(pecas[25]);
-        // Cavalo Preto (Direita):
+    // Cavalo Preto (Direita):
         this.pecas[30] = new Cavalo("prt");
         this.MESA.CASAS[7][6].setPecaPosicao(pecas[30]);
-        // Bispo Preto (Esquerda):
+    // Bispo Preto (Esquerda):
         this.pecas[26] = new Bispo("prt");
         this.MESA.CASAS[7][2].setPecaPosicao(pecas[26]);
-        // Bispo Preto (Direita):
+    // Bispo Preto (Direita):
         this.pecas[29] = new Bispo("prt");
         this.MESA.CASAS[7][5].setPecaPosicao(pecas[29]);
-        // Dama Preta:
+    // Dama Preta:
         this.pecas[27] = new Dama("prt");
         this.MESA.CASAS[7][3].setPecaPosicao(pecas[27]);
-        // Rei Preto:
+    // Rei Preto:
         this.pecas[28] = new Rei("prt");
         this.MESA.CASAS[7][4].setPecaPosicao(pecas[28]);
 

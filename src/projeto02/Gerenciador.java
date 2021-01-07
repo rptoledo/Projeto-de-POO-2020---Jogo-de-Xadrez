@@ -1,7 +1,7 @@
 /*
  * => Descricao da classe Gerenciador:
  *          -> O 
- *          -> U
+ *          -> U 
  *
  * => Funcionalidades da classe Gerenciador:
  *          -> O

@@ -105,43 +105,212 @@ public class Tabuleiro
             return true;
         }
         
-        // System.out.println("\n" + "linhaOrigem:" + linhaOrigem + " colunaOrigem:" + (int) colunaOrigem + " linhaDestino:" + linhaDestino + " colunaDestino:" +  (int) colunaDestino + "\n");
         return false;
     }
     
-    // Verifica se o caminho do movimento que o usuario deseja fazer esta livre:
-    /*public boolean caminhoLivre(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
-    {
-        
-    }*/
-    
     // Serve para checar se nao ha nenhuma peca que atrapalha a realizacao do movimento:
-    private boolean checaCaminho(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
+    private boolean caminhoLivre(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // pecaMov eh a peca que o jogador esta tentando movimentar:
         Peca pecaMov = CASAS[linhaOrigem][colunaOrigem].getPecaPosicao();
-        // tamanhoMov representa quantas casas o movimento tem:
-        int tamanhoMov = 0;
         
+        int t1, t2;
+        
+        // Percorro todo o tabuleiro para fazer as verificacoes:
         for (int linDest = 0; linDest <= 7; linDest++)
         {
             for (int colDest = 0; colDest <= 7; colDest++)
             {
-                if (pecaMov.simbolo == 'b' || pecaMov.simbolo == 'B')
+/* <<< Checagem do caminho para Peoes Brancos: >>> */
+                if (pecaMov.simbolo == 'p')
                 {
-                    // Subtraio 1 pois a verificacao da casa destino eh feita por outro metodo.
-                    tamanhoMov = Math.abs(linhaOrigem - linhaDestino) - 1;
-                        
-                    // Se a linhaOrigem for menor e a colunaOrigem for maior (esta em cima a esquerda):
-                    if (linhaOrigem < linhaDestino && colunaOrigem > colunaDestino)
+    /* [Mov. Norte] -> A linhaOrigem eh menor que as linhas da proximas 2 casas ao norte.
+                    -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
+                    -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
+                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
+                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
                     {
-                        // Se estiver dentro do limite do tamanho do movimento, verifico.
-                        if (Math.abs(linhaOrigem - linDest) <= tamanhoMov)
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
                         {
-                            if (CASAS[linDest][colDest].getPecaPosicao() != null)
-                            {
-                                return false;
-                            }
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                }
+                
+                /* <<< Checagem do caminho para Peoes Pretos: >>> */
+                if (pecaMov.simbolo == 'P')
+                {
+    /* [Mov. Sul] -> A linhaOrigem eh maior que as linhas da proximas 2 casas ao sul.
+                  -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
+                  -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
+                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
+                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                }
+                
+/* <<< Checagem do caminho para Torres e Damas: >>> */
+                if (pecaMov.simbolo == 't' || pecaMov.simbolo == 'T' || pecaMov.simbolo == 'd' || pecaMov.simbolo == 'D')
+                {
+    /* [Mov. Norte] -> A linhaOrigem eh menor que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
+                    -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
+                    -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
+                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
+                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                    
+    /* [Mov. Sul] -> A linhaOrigem eh maior que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
+                  -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
+                  -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
+                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
+                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                    
+    /* [Mov. Oeste] -> A linhaOrigem eh igual em todas as casas ate a casa da linhaDestino, inclusive.
+                    -> A colunaOrigem eh maior que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
+                    -> Ao realizar o movimento pela HORIZONTAL, a linha de uma casa eh igual a linha de qualquer outra casa. */
+                    if (linhaOrigem == linDest && linDest == linhaDestino // linhaOrigem = linDest = linhaDestino
+                     && colunaDestino < colDest && colDest < colunaOrigem) // colunaDestino < colDest < colunaOrigem.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                    
+    /* [Mov. Leste] -> A linhaOrigem eh igual em todas as casas ate a casa da linhaDestino, inclusive.
+                    -> A colunaOrigem eh menor que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
+                    -> Ao realizar o movimento pela HORIZONTAL, a linha de uma casa eh igual a linha de qualquer outra casa. */
+                    if (linhaOrigem == linDest && linDest == linhaDestino // linhaOrigem = linDest = linhaDestino
+                     && colunaOrigem < colDest && colDest < colunaDestino) // colunaOrigem < colDest < colunaDestino.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                }
+                
+/* <<< Checagem do caminho para Bispos e Damas: >>> */
+                if (pecaMov.simbolo == 'b' || pecaMov.simbolo == 'B' || pecaMov.simbolo == 'd' || pecaMov.simbolo == 'D')
+                {
+    /* [Mov. Noroeste] -> A linhaOrigem eh menor que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
+                       -> A colunaOrigem eh maior que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
+                       -> Ao realizar o movimento pela DIAGONAL PRINCIPAL ou pelas diagonais paralelas a ela, a soma das linhas
+                         e colunas de uma casa eh igual a soma das linhas e colunas de qualquer outra casa. */
+                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
+                     && colunaDestino < colDest && colDest < colunaOrigem // colunaDestino < colDest < colunaOrigem.
+                     && (linhaOrigem + colunaOrigem) == (linDest + colDest)) // Apenas a diagonal do movimento sera checada.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                    
+    /* [Mov. Sudeste] -> A linhaOrigem eh maior que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
+                      -> A colunaOrigem eh menor que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
+                      -> Ao realizar o movimento pela DIAGONAL PRINCIPAL ou pelas diagonais paralelas a ela, a soma das linhas
+                        e colunas de uma casa eh igual a soma das linhas e colunas de qualquer outra casa. */
+                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
+                     && colunaOrigem < colDest && colDest < colunaDestino // colunaOrigem < colDest < colunaDestino.
+                     && (linhaOrigem + colunaOrigem) == (linDest + colDest)) // Apenas a diagonal do movimento sera checada.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                    
+    /* [Mov. Nordeste] -> A linhaOrigem eh menor que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
+                       -> A colunaOrigem eh menor que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
+                       -> Ao realizar o movimento pela DIAGONAL SECUNDARIA ou pelas diagonais paralelas a ela, as subtracoes
+                         entre linhaOrigem e linDest e entre colunaOrigem e colDest sao equivalentes. */
+                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
+                     && colunaOrigem < colDest && colDest < colunaDestino // colunaOrigem < colDest < colunaDestino.
+                     && (linhaOrigem - linDest) == (colunaOrigem - colDest)) // Apenas a diagonal do movimento sera checada.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
+                        }
+                    }
+                    
+    /* [Mov. Sudoeste] -> A linhaOrigem eh maior que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
+                       -> A colunaOrigem eh maior que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
+                       -> Ao realizar o movimento pela DIAGONAL SECUNDARIA ou pelas diagonais paralelas a ela, as subtracoes
+                         entre linhaOrigem e linDest e entre colunaOrigem e colDest sao equivalentes. */
+                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
+                     && colunaDestino < colDest && colDest < colunaOrigem // colunaDestino < colDest < colunaOrigem.
+                     && (linhaOrigem - linDest) == (colunaOrigem - colDest)) // Apenas a diagonal do movimento sera checada.
+                    {
+                        // Verifica se ha alguma peca no caminho:
+                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        {
+                            t1 = linDest + 1;
+                            t2 = colDest + 97;
+                            System.out.println("(" + t1 + ", " + (char) t2 + ")");
+                            
+                            //return false;
                         }
                     }
                 }
@@ -165,7 +334,7 @@ public class Tabuleiro
             return false;
         }
         // Verifico se nao ha nenhuma peca que atrapalha a realizacao do movimento, se retornar false, eh um movimento invalido:
-        else if (checaCaminho(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
+        else if (caminhoLivre(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
         {
             return false;
         }
