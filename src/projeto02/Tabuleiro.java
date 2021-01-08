@@ -379,8 +379,10 @@ public class Tabuleiro
     
     private boolean xeque(Jogador jogador)
     {
+        int linRei, colRei;
+        
         // Percorro todo o tabuleiro para encontrar o Rei Branco ou o Rei Preto:
-        for (lin i = 0; lin <= 7; lin++)
+        for (int lin = 0; lin <= 7; lin++)
         {
             for (int col = 0; col <= 7; col++)
             {
@@ -389,14 +391,15 @@ public class Tabuleiro
                     if (CASAS[lin][col].getPecaPosicao().desenho() == 'r')
                     {
                         linRei = lin;
-                        colRei = col
+                        colRei = col;
                     }
                 }
                 else if (jogador.getCORPECAS().equals("pretas") )
                 {
-                    if (CASAS[linRei][colRei].getPecaPosicao().desenho() == 'R')
+                    if (CASAS[lin][col].getPecaPosicao().desenho() == 'R')
                     {
-                        
+                        linRei = lin;
+                        colRei = col;
                     }
                 }
             }

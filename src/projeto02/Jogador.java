@@ -79,7 +79,6 @@ public class Jogador
             {
                 // PRECISO DE UM TRY CATCH AQUI.
                 System.out.println("O nome digitado eh invalido!");
-                break; // Sai do laco de repeticao.
             }
             /* Como nessa primeira fase nao vou ficar pedindo para o usuario digitar de novo, em caso de erro, apenas
              aponto o erro e atribuo os valores que recebi, mas futuramente, vai ficar no while ate corrigir o erro. */
