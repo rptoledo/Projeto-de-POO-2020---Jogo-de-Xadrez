@@ -68,21 +68,21 @@ public class Jogador
     {
         Scanner leNome = new Scanner(System.in);
         String nomeTestado;
+        boolean nomeErrado;
         
-        System.out.print("\nDigite o nome do jogador (maximo 20 caracteres): ");
-        
-        nomeTestado = leNome.nextLine();
-        
-        if (checaNome(nomeTestado) == false)
+        // Uso do while para garantir que as variaveis sao inicializadas:
+        do
         {
-            while (checaNome(nomeTestado) == false)
+            System.out.print("\nDigite o nome do jogador (maximo 20 caracteres): ");
+
+            nomeTestado = leNome.nextLine();
+            nomeErrado = checaNome(nomeTestado);
+            
+            if (!nomeErrado)
             {
-                // PRECISO DE UM TRY CATCH AQUI.
-                System.out.println("O nome digitado eh invalido!");
+                System.out.println("O nome digitado eh invalido!");                
             }
-            /* Como nessa primeira fase nao vou ficar pedindo para o usuario digitar de novo, em caso de erro, apenas
-             aponto o erro e atribuo os valores que recebi, mas futuramente, vai ficar no while ate corrigir o erro. */
-        }
+        } while (!nomeErrado);
         
         this.NOME = nomeTestado;
         

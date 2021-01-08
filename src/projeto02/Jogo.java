@@ -53,19 +53,25 @@ public class Jogo {
         // Serve para carregar o jogo na variavel jogadasValidasAux:
         ArrayList<String> jogadasValidasAux = new ArrayList();
         
-        char escolhaCont = desejaContinuar();
+        String escolhaContinuacao;
         
-        if (JOGADASVALIDAS.isEmpty() && escolhaCont == 's')
+        do
+        {
+            escolhaContinuacao = desejaContinuar();
+            
+            if (!escolhaContinuacao.equals("s") && !escolhaContinuacao.equals("n") )
+            {
+                System.out.println("A escolha eh invalida.");
+            }
+        } while (!escolhaContinuacao.equals("s") && !escolhaContinuacao.equals("n") );
+
+        if (JOGADASVALIDAS.isEmpty() && escolhaContinuacao.equals("s") )
         {
             retomaJogo(jogadasValidasAux);
         }
         else
         {
-            if (JOGADASVALIDAS.isEmpty() && escolhaCont!= 'n')
-            {
-                System.out.println("A escolha eh invalida.");
-            }
-            
+
             jogoRetomado = true;
             JOGADASVALIDAS.clear();
             
@@ -174,7 +180,7 @@ public class Jogo {
                     Peca pecaDestino = MESA.CASAS[jogada.charAt(11) - 49][( (int) jogada.charAt(14) - 97)].getPecaPosicao();
 
                     // Esta fora dos limites do tabuleiro:
-                    if (MESA.checaTabuleiro(linDestino, colDestino, linDestino, colDestino) == false)
+                    if (MESA.checaTabuleiro(linOrigem, colOrigem, linDestino, colDestino) == false)
                     {
                         throw new Error("O movimento pretendido esta fora dos limites do tabuleiro!\n");
                     }
@@ -301,10 +307,19 @@ public class Jogo {
         try
         {
             Scanner leNomeArquivo = new Scanner(System.in);
+            String nomeArquivo;
+            
+            do
+            {
+                System.out.print("\nDigite o nome do arquivo onde o jogo sera salvo (maximo 20 caracteres): ");
+                nomeArquivo = leNomeArquivo.nextLine();
 
-            System.out.print("\nDigite o nome do arquivo onde sera salvo o jogo: ");
-            String nomeArquivo = leNomeArquivo.nextLine();
-
+                if (nomeArquivo.length() == 0 || nomeArquivo.length() > 20)
+                {
+                    System.out.println("O nome do arquivo eh invalido.");
+                }
+            } while (nomeArquivo.length() == 0 || nomeArquivo.length() > 20);
+            
             FileWriter fw = new FileWriter(nomeArquivo + ".txt");
             PrintWriter pw = new PrintWriter(fw);
             System.out.println("O arquivo foi escrito com sucesso!\n");
@@ -353,15 +368,15 @@ public class Jogo {
         }
     }
     
-    private char desejaContinuar()
+    private String desejaContinuar()
     {
         Scanner leEscolha = new Scanner(System.in);
         
         System.out.print("\nDeseja continuar um jogo salvo? Caso deseje, digite 'S', caso contrario, digite 'N': ");
-        char escolha = leEscolha.next().charAt(0);
+        String escolha = leEscolha.nextLine();
         
         // Converte a escolha para letras minusculas:
-        escolha = Character.toLowerCase(escolha);
+        escolha = escolha.toLowerCase();
         
         return escolha;
     }
