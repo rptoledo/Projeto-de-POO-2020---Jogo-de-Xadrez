@@ -422,7 +422,7 @@ public class Tabuleiro {
             for (int col = 0; col <= 7; col++) {
 
                 if (CASAS[lin][col].getPecaPosicao() != null
-                        && CASAS[lin][col].getPecaPosicao().desenho() != 'p' && CASAS[lin][col].getPecaPosicao().desenho() != 'P'
+                        //&& CASAS[lin][col].getPecaPosicao().desenho() != 'p' && CASAS[lin][col].getPecaPosicao().desenho() != 'P'
                         && meuRei != null && !meuRei.getCor().equals(CASAS[lin][col].getPecaPosicao().getCor())) {
 
                     if (CASAS[lin][col].getPecaPosicao().checaMovimento(lin, col, linRei, colRei) == true
