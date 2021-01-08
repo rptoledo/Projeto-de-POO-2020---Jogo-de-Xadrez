@@ -176,16 +176,16 @@ public class Jogo {
         // Converte a jogada para letras minusculas:
         jogada = jogada.toLowerCase();
 
-        return xJogada(jogada, alt, false);
+        return realizaJogada(jogada, alt, false);
     }
 
     // Sobrecarrego o recebeJogada, para retomar o jogo salvo:
     private boolean recebeJogada(int alt, String jogada, boolean impressaoJogoRetomado) {
-        return xJogada(jogada, alt, impressaoJogoRetomado);
+        return realizaJogada(jogada, alt, impressaoJogoRetomado);
     }
 
     // Serve para realizar a jogada, caso ela seja valida, ou entao informar o erro:
-    private boolean xJogada(String jogada, int alt, boolean jogoRetomado) {
+    private boolean realizaJogada(String jogada, int alt, boolean jogoRetomado) {
         try {
             if (jogada.equals("salvar")) {
                 this.salvaJogo();
@@ -311,7 +311,7 @@ public class Jogo {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Arquivo nao encontrado, eh impossivel carregar o jogo.");
+            System.out.println("Arquivo nao encontrado, foi impossivel carregar o jogo.");
         } catch (IOException ex) {
             System.err.println("Ocorreu um erro, tente novamente!");
         }
@@ -334,8 +334,7 @@ public class Jogo {
  * =========================================================================== */
     // <<< Construtor da classe Jogo: >>>
     public Jogo() {
-        // Cria o Tabuleiro:
-        this.MESA = new Tabuleiro();
+        // O jogo comeca no estado "inicio":
         this.estado = "inicio";
 
         // Cria o Primeiro Jogador, que controla as Pecas Brancas:
@@ -344,74 +343,57 @@ public class Jogo {
         // Cria o Segundo Jogador, que controla as Pecas Pretas:
         this.JOGADOR2 = new Jogador("pretas");
 
-        /*--> CRIA E ADICIONA AS 32 PECAS AS SUAS RESPECTIVAS CASAS: <--*/
+/*--> CRIA E AS 32 PECAS: <--*/
         this.PECAS = new Peca[32];
 
-        /*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
-        // 8 Peoes Brancos:
+/*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
+    // 8 Peoes Brancos:
         for (int id = 0; id < 8; id++) {
             this.PECAS[id] = new Peao("brc");
-            this.MESA.CASAS[1][id].setPecaPosicao(PECAS[id]);
         }
 
-        // Torre Branca (Esquerda):
+    // Torre Branca (Esquerda):
         this.PECAS[8] = new Torre("brc");
-        this.MESA.CASAS[0][0].setPecaPosicao(PECAS[8]);
-        // Torre Branca (Direita):
+    // Torre Branca (Direita):
         this.PECAS[9] = new Torre("brc");
-        this.MESA.CASAS[0][7].setPecaPosicao(PECAS[9]);
-        // Cavalo Branco (Esquerda):
+    // Cavalo Branco (Esquerda):
         this.PECAS[10] = new Cavalo("brc");
-        this.MESA.CASAS[0][1].setPecaPosicao(PECAS[10]);
-        // Cavalo Branco (Direita):
+    // Cavalo Branco (Direita):
         this.PECAS[11] = new Cavalo("brc");
-        this.MESA.CASAS[0][6].setPecaPosicao(PECAS[11]);
-        // Bispo Branco (Esquerda):
+    // Bispo Branco (Esquerda):
         this.PECAS[12] = new Bispo("brc");
-        this.MESA.CASAS[0][2].setPecaPosicao(PECAS[12]);
-        // Bispo Branco (Direita):
+    // Bispo Branco (Direita):
         this.PECAS[13] = new Bispo("brc");
-        this.MESA.CASAS[0][5].setPecaPosicao(PECAS[13]);
-        // Dama Branca:
+    // Dama Branca:
         this.PECAS[14] = new Dama("brc");
-        this.MESA.CASAS[0][3].setPecaPosicao(PECAS[14]);
-        // Rei Branco:
+    // Rei Branco:
         this.PECAS[15] = new Rei("brc");
-        this.MESA.CASAS[0][4].setPecaPosicao(PECAS[15]);
 
-        /*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
-        // 8 Peoes Pretos:
+/*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
+    // 8 Peoes Pretos:
         for (int id = 16; id < 24; id++) {
             this.PECAS[id] = new Peao("prt");
-            // Faco (id - 16) pois a primeira posicao da matriz eh 0 e o id comeca em 16:
-            this.MESA.CASAS[6][id - 16].setPecaPosicao(PECAS[id]);
         }
 
-        // Torre Preta (Esquerda):
+    // Torre Preta (Esquerda):
         this.PECAS[24] = new Torre("prt");
-        this.MESA.CASAS[7][0].setPecaPosicao(PECAS[24]);
-        // Torre Preta (Direita):
+    // Torre Preta (Direita):
         this.PECAS[31] = new Torre("prt");
-        this.MESA.CASAS[7][7].setPecaPosicao(PECAS[31]);
-        // Cavalo Preto (Esquerda):
+    // Cavalo Preto (Esquerda):
         this.PECAS[25] = new Cavalo("prt");
-        this.MESA.CASAS[7][1].setPecaPosicao(PECAS[25]);
-        // Cavalo Preto (Direita):
+    // Cavalo Preto (Direita):
         this.PECAS[30] = new Cavalo("prt");
-        this.MESA.CASAS[7][6].setPecaPosicao(PECAS[30]);
-        // Bispo Preto (Esquerda):
+    // Bispo Preto (Esquerda):
         this.PECAS[26] = new Bispo("prt");
-        this.MESA.CASAS[7][2].setPecaPosicao(PECAS[26]);
-        // Bispo Preto (Direita):
+    // Bispo Preto (Direita):
         this.PECAS[29] = new Bispo("prt");
-        this.MESA.CASAS[7][5].setPecaPosicao(PECAS[29]);
-        // Dama Preta:
+    // Dama Preta:
         this.PECAS[27] = new Dama("prt");
-        this.MESA.CASAS[7][3].setPecaPosicao(PECAS[27]);
-        // Rei Preto:
+    // Rei Preto:
         this.PECAS[28] = new Rei("prt");
-        this.MESA.CASAS[7][4].setPecaPosicao(PECAS[28]);
 
+        // Cria o Tabuleiro:
+        this.MESA = new Tabuleiro(PECAS);
         // Cria um objeto do tipo ArrayList para armazenar os movimentos validos:
         this.JOGADASVALIDAS = new ArrayList();
     }
