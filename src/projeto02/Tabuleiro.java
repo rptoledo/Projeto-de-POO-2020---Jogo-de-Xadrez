@@ -286,44 +286,80 @@ public class Tabuleiro {
         } // Verifico se a posicao de origem eh a mesma que a posicao de destino, se for, eh um movimento invalido:         
         // Verifico se o movimento eh valido para o tipo especifico de peca que esta sendo movimentada, se retornar false, eh um movimento invalido:
         // Verifico se nao ha nenhuma peca que atrapalha a realizacao do movimento, se retornar false, eh um movimento invalido:
-        else if (CASAS[linhaOrigem][colunaOrigem].getPecaPosicao().checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false
-                || linhaOrigem == linhaDestino && colunaOrigem == colunaDestino
-                || caminhoLivre(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false) {
+        
+        
+        
+        else if (
+                (pecaOrigem.desenho() == 'p' || pecaOrigem.desenho() == 'P') && 
+                (pecaDestino == null && pecaOrigem.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
+        )
+        {
+            
+            throw new Error("Movimentação invalida para o tipo de peca selecionada!\n");
+            
+        }
+        else if (pecaOrigem.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
+        {
+            throw new Error("Movimentação invalida para o tipo de peca selecionada!\n");
+        }
+            
+        
+        
+        // Verifico se nao ha nenhuma peca que atrapalha a realizacao do movimento, se retornar false, eh um movimento invalido:
+        else if (caminhoLivre(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
+        {
             throw new Error("Movimentação invalida!\n");
         }
+        
+        
+        else if (CASAS[linhaOrigem][colunaOrigem].getPecaPosicao().checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false
+                
+                || linhaOrigem == linhaDestino && colunaOrigem == colunaDestino
+                || caminhoLivre(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false
+                
+                ) {
+            throw new Error("Movimentação invalida!\n");
+        }
+        
         // Se nenhuma das condicoes acima for desrespeitada, o movimento eh valido:
-        if (movimenta(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false) {
+        if (movimenta(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino, false) == false) {
             throw new Error("Captura invalida!\n");
         }
     }
 
     // Registra quando um Peao realiza seu primeiro movimento, mudando o atributo primeiroMov para false:
     // Realiza a movimentacao das pecas (esse metodo so eh chamado depois de todas as checagens retornarem positivamente):
-    public boolean movimenta(int linOrigem, int colOrigem, int linDestino, int colDestino) {
+    public boolean movimenta(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check) {
         Peca pecaOrigem = CASAS[linOrigem][colOrigem].getPecaPosicao();
         Peca pecaDestino = CASAS[linDestino][colDestino].getPecaPosicao();
 
         // Se houver uma peca na posicao destino:
         if (pecaDestino != null) {
             // Se a captura nao foi realizada, retorna false:
-            if (capturaPeca(linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false) {
+            if (capturaPeca(linOrigem, colOrigem, linDestino, colDestino, check) == false) {
                 return false;
             }
+            // Para simular o check a peça destino que será o rei não pode ser nula.
+        } else if (pecaDestino == null && check == true) {
+            return false;
         }
+        if (check == false) {
+            // Ocupa a casa de destino com a Peca da origem (atributo pecaPosicao recebe pecaOrigem):
+            CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
+            // Deixa a casa de origem vazia (atributo pecaPosicao recebe null):
+            CASAS[linOrigem][colOrigem].setPecaPosicao(null);
 
-        // Ocupa a casa de destino com a Peca da origem (atributo pecaPosicao recebe pecaOrigem):
-        CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
-        // Deixa a casa de origem vazia (atributo pecaPosicao recebe null):
-        CASAS[linOrigem][colOrigem].setPecaPosicao(null);
-
-        // Registra quando um Peao realiza seu primeiro movimento:
-        moveuPeao(linDestino, colDestino);
-
+            // Registra quando um Peao realiza seu primeiro movimento:
+            moveuPeao(linDestino, colDestino);
+        }
         return true;
     }
-
     // Realiza a captura de pecas, retornando true em caso de sucesso e false, caso contrário:
-    public boolean capturaPeca(int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino) {
+
+    public boolean capturaPeca(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check) {
+        Peca pecaOrigem = CASAS[linOrigem][colOrigem].getPecaPosicao();
+        Peca pecaDestino = CASAS[linDestino][colDestino].getPecaPosicao();
+
         // Captura especifico para um Peao Branco:
         if (pecaOrigem.simbolo == 'p') {
             /* -> Como para os peoes brancos a captura deve ser feita apenas uma casa ao norte,
@@ -349,32 +385,59 @@ public class Tabuleiro {
         }
 
         // O atributo capturado da Peca do destino eh mudado pra true:
-        pecaDestino.setCapturado();
+        if (check == false) {
+            pecaDestino.setCapturado();
+        }
 
         return true;
     }
 
-    private boolean xeque(Jogador jogador) {
-        int linRei, colRei;
+    public boolean xeque(int vez) {
+        int linRei = -1, colRei = -1;
+        Peca meuRei = null;
 
         // Percorro todo o tabuleiro para encontrar o Rei Branco ou o Rei Preto:
         for (int lin = 0; lin <= 7; lin++) {
             for (int col = 0; col <= 7; col++) {
-                if (jogador.getCORPECAS().equals("brancas")) {
-                    if (CASAS[lin][col].getPecaPosicao().desenho() == 'r') {
-                        linRei = lin;
-                        colRei = col;
+                if (vez == 0 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'r') {
+                    linRei = lin;
+                    colRei = col;
+                    meuRei = CASAS[linRei][colRei].getPecaPosicao();
+                    break;
+
+                } else if (vez == 1 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'R') {
+                    linRei = lin;
+                    colRei = col;
+                    meuRei = CASAS[linRei][colRei].getPecaPosicao();
+                    break;
+                }
+            }
+        }
+        //Apenas porque o netbeans encheu o saco
+        if (linRei == -1 && colRei == -1) {
+            return false;
+        }
+
+        for (int lin = 0; lin <= 7; lin++) {
+            for (int col = 0; col <= 7; col++) {
+
+                if (CASAS[lin][col].getPecaPosicao() != null
+                        && CASAS[lin][col].getPecaPosicao().desenho() != 'p' && CASAS[lin][col].getPecaPosicao().desenho() != 'P'
+                        && meuRei != null && !meuRei.getCor().equals(CASAS[lin][col].getPecaPosicao().getCor())) {
+
+                    if (CASAS[lin][col].getPecaPosicao().checaMovimento(lin, col, linRei, colRei) == true
+                            && caminhoLivre(lin, col, linRei, colRei) == true) {
+                        if (movimenta(lin, col, linRei, colRei, true)) {
+                            System.out.println("Teste " + lin + " " + col + " " + CASAS[lin][col].getPecaPosicao().desenho());
+                            return true;
+                        }
                     }
-                } else if (jogador.getCORPECAS().equals("pretas")) {
-                    if (CASAS[lin][col].getPecaPosicao().desenho() == 'R') {
-                        linRei = lin;
-                        colRei = col;
-                    }
+
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     /* ===========================================================================

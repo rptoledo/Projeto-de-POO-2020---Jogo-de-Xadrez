@@ -49,6 +49,8 @@ public class Jogo {
     // Alterna as jogadas entre os dois Jogadores:
     public void alternaJogadas() {
         boolean jogoRetomado = false;
+        int pretasEmXeque = 0;
+        int brancasEmXeque = 0;
         // Serve para carregar o jogo na variavel jogadasValidasAux:
         ArrayList<String> jogadasValidasAux = new ArrayList();
 
@@ -78,6 +80,24 @@ public class Jogo {
 
         for (int alt = 0; !this.estado.equals("xeque-mate"); alt++) {
             if (jogoRetomado == false) {
+                if (this.MESA.xeque(alt % 2)) {
+                    if (alt % 2 == 0) {
+                        System.out.println("As peças brancas estão em xeque");
+                        brancasEmXeque += 1;
+                    } else if (alt % 2 == 1) {
+                        System.out.println("As peças pretas estão em xeque");
+                        pretasEmXeque += 1;
+                    }
+                } else if (!this.MESA.xeque(alt % 2)) {;
+                    if (alt % 2 == 0) {
+                        brancasEmXeque = 0;
+                        System.out.println("As peças brancas estão em xeque");
+                    } else if (alt % 2 == 1) {
+                        brancasEmXeque = 0;
+                        System.out.println("As peças pretas estão em xeque");
+                    }
+                }
+
                 // O ponto e virgula em cima do for significa que vou usar o alt para iniciar o for:
                 for (; alt < jogadasValidasAux.size(); alt++) {
                     if (alt % 2 == 0 && recebeJogada(alt, jogadasValidasAux.get(alt), true) == false) {
@@ -85,6 +105,7 @@ public class Jogo {
                     } else if (alt % 2 == 1 && recebeJogada(alt, jogadasValidasAux.get(alt), true) == false) {
                         alt--;
                     }
+
                 }
 
                 jogoRetomado = true;
@@ -98,11 +119,42 @@ public class Jogo {
             }
 
             if (jogoRetomado == true) {
+
+                if (this.MESA.xeque(alt % 2)) {
+                    if (alt % 2 == 0) {
+                        System.out.println("As peças brancas estão em xeque");
+                        brancasEmXeque += 1;
+                    } else if (alt % 2 == 1) {
+                        System.out.println("As peças pretas estão em xeque");
+                        pretasEmXeque += 1;
+                    }
+                } else if (!this.MESA.xeque(alt % 2)) {
+                    if (alt % 2 == 0) {
+                        brancasEmXeque = 0;
+                    } else if (alt % 2 == 1) {
+                        pretasEmXeque = 0;
+                    }
+                }
+
+                System.out.println("Brancas: " + brancasEmXeque);
+                System.out.println("Pretas: " + pretasEmXeque);
+
+                // Rei preto for capturado, o branco ganha
+                if (this.PECAS[28].isCapturado() == true) {
+                    System.out.println("O jogador " + JOGADOR1.getNOME() + " das peças brancas ganhou!");
+                    break;
+                    // Rei branco for capturado, o preto ganha 
+                } else if (this.PECAS[15].isCapturado() == true) {
+                    System.out.println("O jogador " + JOGADOR2.getNOME() + " das peças pretas ganhou!");
+                    break;
+                }
+
                 if (alt % 2 == 0 && recebeJogada(JOGADOR1, alt) == false) {
                     alt--;
                 } else if (alt % 2 == 1 && recebeJogada(JOGADOR2, alt) == false) {
                     alt--;
                 }
+
             }
         }
     }
@@ -151,9 +203,9 @@ public class Jogo {
                 int colDestino = (int) (jogada.charAt(14) - 97);
 
                 MESA.checaTudo(linOrigem, colOrigem, linDestino, colDestino, alt % 2);
-                 // Armazena as jogadas validas que serao salvas no arquivo:
+                // Armazena as jogadas validas que serao salvas no arquivo:
                 this.JOGADASVALIDAS.add(jogada);
-                
+
                 if (jogoRetomado == false) {
                     // Se o jogo nao estiver sendo carregado, imprimo uma confirmacao da jogada e o tabuleiro:
                     System.out.println("Jogada realizada com sucesso!\n");
