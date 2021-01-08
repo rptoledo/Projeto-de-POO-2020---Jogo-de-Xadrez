@@ -21,15 +21,13 @@ package projeto02;
  *  Autor: Rafael P Toledo
  *  ==========================================================================. */
 
-import java.io.IOException;
-
 public class Gerenciador
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws CorPecaException
     {
         System.out.println("\n ====================================================================================== "
-         + "\n ======================== PROJETO DE POO 2020 - JOGO DE XADREZ ======================== "
-         + "\n ====================================================================================== ");
+            + "\n ======================== PROJETO DE POO 2020 - JOGO DE XADREZ ======================== "
+            + "\n ====================================================================================== ");
         
         Jogo game = new Jogo();
         

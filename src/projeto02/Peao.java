@@ -30,21 +30,22 @@ public class Peao extends Peca
 /* ===========================================================================
  * ================================ ATRIBUTOS ================================
  * =========================================================================== */
-    private boolean primeiroMov; // Usado para verificar se uma determinada peca ja foi movimentada.
+    private boolean primeiroMov; // Usado para verificar se um determinado peao ja foi movimentado.
     
     
 /* ===========================================================================
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     @Override
-    // Retorna o elemento que representa a peca Peao, que sera desenhada na tela:
+    // Retorna o simbolo do peao.
     public char desenho()
     {
         return simbolo;
     }
     
     @Override
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para a peca Peao:
+    /* -> Verifica se o movimento pode ser realizado por um peao.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // Se mudar de coluna, o movimento eh invalido.
@@ -56,12 +57,12 @@ public class Peao extends Peca
         // Se a cor for branca, ASCII = 112 (p):
         if (this.cor == "brc")
         {
-            // Checagem para os outros movimentos do Peao (pode se mover apenas 1 casa para frente).
+            // Checagem para os outros movimentos do Peao Branco (pode se mover apenas 1 casa para frente).
             if (linhaDestino - linhaOrigem == 1)
             {
                 return true;
             }
-            // Checagem para o primeiro movimento do Peao andando 2 casas para frente.
+            // Checagem para o primeiro movimento do Peao Branco andando 2 casas para frente.
             else if (linhaDestino - linhaOrigem == 2 && this.isPrimeiroMov() == true)
             {
                 return true;
@@ -70,12 +71,12 @@ public class Peao extends Peca
         // Se a cor for preta, ASCII = 80 (P):
         else if (this.cor == "prt")
         {
-            // Checagem para os outros movimentos do Peao (pode se mover apenas 1 casa para frente).
+            // Checagem para os outros movimentos do Peao Preto (pode se mover apenas 1 casa para frente).
             if (linhaOrigem - linhaDestino == 1)
             {
                 return true;
             }
-            // Checagem para o primeiro movimento do Peao andando 2 casas para frente.
+            // Checagem para o primeiro movimento do Peao Preto andando 2 casas para frente.
             else if (linhaOrigem - linhaDestino == 2 && this.isPrimeiroMov() == true)
             {
                 return true;
@@ -89,34 +90,24 @@ public class Peao extends Peca
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Peao: >>>
-    public Peao(String cor)
+// <<< Construtor da classe Peao: >>>
+    public Peao(String cor) throws CorPecaException
     {
-        try
+        super(cor);
+        
+        if(cor.equals("brc"))
         {
-            switch (cor) {
-                case "brc":
-                    this.simbolo = 'p'; // 'p' simboliza a peca Peao Branco.
-                    break;
-                case "prt":
-                    this.simbolo = 'P'; // 'P' simboliza a peca Peao Preto.
-                    break;
-                default:
-                    throw new Error("O parametro para a cor do Peao eh invalido!\n");
-            }
+            this.simbolo = 'p';
         }
-        catch(Error e)
+        else if(cor.equals("prt"))
         {
-            System.out.println(e.getMessage() );
-            System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
+            this.simbolo = 'P';
         }
         
-        this.cor = cor; // "brc" (branco) ou "prt" (preto) representam a cor da peca Peao.
-        this.capturado = false; // Usado para verificar se a peca Peao esta no jogo.
-        this.primeiroMov = true; //Usado para verificar se a peca Peao ja foi movimentada.
+        this.primeiroMov = true;
     }
     
-    // <<< Getters e Setters da classe Peca: >>>
+// <<< Getters e Setters da classe Peca: >>>
     public boolean isPrimeiroMov() {
         return this.primeiroMov;
     }

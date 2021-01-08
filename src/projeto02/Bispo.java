@@ -30,25 +30,26 @@ public class Bispo extends Peca
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     @Override
-    // Retorna o elemento que representa a peca Bispo, que sera desenhada na tela:
+    // Retorna o simbolo do bispo.
     public char desenho()
     {
         return simbolo;
     }
     
     @Override
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para a peca Bispo:
+    /* -> Verifica se o movimento pode ser realizado por um bispo.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // Sentido da Diagonal Secundária:
         // Se as distancias entre a (linhaOrigem e linhaDestino) e a (colunaOrigem e colunaDestino) sao iguais:
-        if ( (linhaDestino - linhaOrigem) ==  (colunaDestino - colunaOrigem) )
+        if ((linhaDestino - linhaOrigem) ==  (colunaDestino - colunaOrigem))
         {
             return true;
         }
         // Sentido da Diagonal Principal:
         // Se as distancias entre a (linhaOrigem e linhaDestino) e a (colunaOrigem e colunaDestino) sao iguais, com sinal invertido:
-        else if ( (linhaDestino - linhaOrigem) ==  - (colunaDestino - colunaOrigem) )
+        else if ((linhaDestino - linhaOrigem) ==  - (colunaDestino - colunaOrigem))
         {
             return true;
         }
@@ -60,29 +61,18 @@ public class Bispo extends Peca
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Bispo: >>>
-    public Bispo(String cor)
+// <<< Construtor da classe Bispo: >>>
+    public Bispo(String cor) throws CorPecaException
     {
-        try
-        {
-            switch (cor) {
-                case "brc":
-                    this.simbolo = 'b'; // 'b' simboliza a peca Bispo Branco.
-                    break;
-                case "prt":
-                    this.simbolo = 'B'; // 'B' simboliza a peca Bispo Preto.
-                    break;
-                default:
-                    throw new Error("O parametro para a cor do Bispo eh invalido!\n");
-            }
-        }
-        catch(Error e)
-        {
-            System.out.println(e.getMessage() );
-            System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
-        }
+        super(cor);
         
-        this.cor = cor; // "brc" (branco) ou "prt" (preto) representam a cor da peca Bispo.
-        this.capturado = false; // Usado para verificar se a peca Bispo esta no jogo.
+        if(cor.equals("brc"))
+        {
+            this.simbolo = 'b';
+        }
+        else if(cor.equals("prt"))
+        {
+            this.simbolo = 'B';
+        }
     }
 }

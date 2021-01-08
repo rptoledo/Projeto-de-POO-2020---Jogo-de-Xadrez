@@ -26,33 +26,49 @@ public abstract class Peca
 /* ===========================================================================
  * ================================ ATRIBUTOS ================================
  * =========================================================================== */
-    protected char simbolo; // Letra minuscula para pecas brancas ou letra maiuscula para pecas pretas, representam uma peca.
-    protected String cor; // Pecas brancas tem sua cor representada por "br" e pecas pretas por "pr".
-    protected boolean capturado; // Usado para verificar se uma determinada peca esta no jogo.
+    protected char simbolo; // Representa uma peca, sendo letra minuscula para pecas brancas e letra maiuscula para pecas pretas.
+    protected String cor; // Representa a cor de uma peca, sendo "brc" para pecas brancas e "prt" para pecas pretas.
+    protected boolean capturado; // Representa se uma peca foi capturada.
     
     
 /* ===========================================================================
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
-    // Retorna o elemento que representa uma peca especifica, que sera desenhada na tela:
+    // Retorna o simbolo de uma peca.
     public abstract char desenho();
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para uma peca especifica:
+    /* -> Verifica se o movimento pode ser realizado por umz peca.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public abstract boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino);
     
 
-    /* ===========================================================================
-     * ============================ METODOS ESPECIAIS ============================
-     * =========================================================================== */
-    // <<< Getters e Setters da classe Peca: >>>
-    public String getCor() {
+/* ===========================================================================
+ * ============================ METODOS ESPECIAIS ============================
+ * =========================================================================== */
+// <<< Construtor da classe Peca: >>>
+    public Peca(String cor) throws CorPecaException
+    {
+        if (!cor.equals("brc") && !cor.equals("prt"))
+        {
+            throw new CorPecaException();
+        }
+        
+        this.cor = cor;
+        this.capturado = false;
+    }
+        
+// <<< Getters e Setters da classe Peca: >>>
+    public String getCor()
+    {
         return cor;
     }
 
-    public boolean isCapturado() {
+    public boolean isCapturado()
+    {
         return this.capturado;
     }
     
-    public void setCapturado() {
+    public void setCapturado()
+    {
         this.capturado = true;
     }
 }

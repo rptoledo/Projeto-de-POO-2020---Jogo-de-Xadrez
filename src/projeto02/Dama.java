@@ -30,14 +30,15 @@ public class Dama extends Peca
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     @Override
-    // Retorna o elemento que representa a peca Dama, que sera desenhada na tela:
+    // Retorna o simbolo da dama.
     public char desenho()
     {
         return simbolo;
     }
     
     @Override
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para a peca Dama:
+    /* -> Verifica se o movimento pode ser realizado por uma dama.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // Movimento de Torre:
@@ -46,7 +47,7 @@ public class Dama extends Peca
             return true;
         }
         // Movimento de Bispo:
-        else if (Math.abs(linhaDestino - linhaOrigem) == Math.abs(colunaDestino - colunaOrigem) )
+        else if (Math.abs(linhaDestino - linhaOrigem) == Math.abs(colunaDestino - colunaOrigem))
         {
             return true;
         }
@@ -58,29 +59,18 @@ public class Dama extends Peca
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Dama: >>>
-    public Dama(String cor)
+// <<< Construtor da classe Dama: >>>
+    public Dama(String cor) throws CorPecaException
     {
-        try
-        {
-            switch (cor) {
-                case "brc":
-                    this.simbolo = 'd'; // 'd' simboliza a peca Dama Branca.
-                    break;
-                case "prt":
-                    this.simbolo = 'D'; // 'D' simboliza a peca Dama Preta.
-                    break;
-                default:
-                    throw new Error("O parametro para a cor da Dama eh invalido!\n");
-            }
-        }
-        catch(Error e)
-        {
-            System.out.println(e.getMessage() );
-            System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
-        }
+        super(cor);
         
-        this.cor = cor; // "brc" (branco) ou "prt" (preto) representam a cor da peca Dama.
-        this.capturado = false; // Usado para verificar se a peca Dama esta no jogo.
+        if(cor.equals("brc"))
+        {
+            this.simbolo = 'd';
+        }
+        else if(cor.equals("prt"))
+        {
+            this.simbolo = 'D';
+        }
     }
 }

@@ -15,18 +15,16 @@
 
 package projeto02;
 
-/**
- * ==========================================================================
+/** ==========================================================================
  *  Universidade Federal de Sao Carlos - Campus Sorocaba
  *  Disciplina: Programacao Orientada a Objetos
  *  Profa Katti Faceli
- *  
+ *
  *  PROJETO 02
- *  
+ *
  *  RA: 743590
  *  Autor: Rafael P Toledo
- * ==========================================================================.
- */
+ *  ==========================================================================. */
 
 public class Tabuleiro
 {
@@ -83,8 +81,8 @@ public class Tabuleiro
     }
     
     /* -> Verifica se a casa esta ocupada por uma peca ou vazia.
-       -> Retorna o simbolo da peca, se a casa estiver ocupada e a cor da casa, caso contrario.
-       -> Esse metodo eh usado em imprimeTabuleiro() para definir o que sera impresso. */
+           -> Retorna o simbolo da peca, se a casa estiver ocupada e a cor da casa, caso contrario.
+           -> Esse metodo eh usado em imprimeTabuleiro() para definir o que sera impresso. */
     private char checaOcupacao(int lin, int col)
     {
         // Se a casa estiver vazia, retorno a cor da casa:
@@ -101,11 +99,11 @@ public class Tabuleiro
     }
 
     /* -> Verifica se o movimento que o usuario deseja fazer esta dentro dos limites do tabuleiro.
-       -> Retorna true, se estiver dentro dos limites e false, caso contrario. */
+           -> Retorna true, se estiver dentro dos limites e false, caso contrario. */
     private boolean checaTabuleiro(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         /* -> As linhas e colunas passadas pelo usuario que estao entre (1 e 8) e (a a h), respectivamente, estao dentro dos limites do tabuleiro.
-           -> As linhas e colunas foram manipuladas, de modo a ficarem no intervalo de (0 a 7), caso estejam dentro do limite do tabuleiro. */
+                   -> As linhas e colunas foram manipuladas, de modo a ficarem no intervalo de (0 a 7), caso estejam dentro do limite do tabuleiro. */
         if (linhaOrigem >= 0 && linhaOrigem <= 7 && colunaOrigem >= 0 && colunaOrigem <= 7 && linhaDestino >= 0 && linhaDestino <= 7 && colunaDestino >= 0 && colunaDestino <= 7)
         {
             return true;
@@ -114,8 +112,8 @@ public class Tabuleiro
         return false;
     }
 
-    /* Verifica se nao ha nenhuma peca entre a casa de origem e a casa de destino.
-        Retorna true, se o caminho estiver livre e false, caso contrario. */
+    /* -> Verifica se nao ha nenhuma peca entre a casa de origem e a casa de destino.
+           -> Retorna true, se o caminho estiver livre e false, caso contrario. */
     private boolean caminhoLivre(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // O atributo pecaMov eh a peca que o jogador esta tentando movimentar:
@@ -289,7 +287,7 @@ public class Tabuleiro
        -> O atributo primeiroMov, de um peao que fez seu primeiro movimento, eh mudado para false. */
     private void moveuPeao(int lin, int col)
     {
-        int simbolo = CASAS[lin][col].getPecaPosicao().desenho();
+        char simbolo = CASAS[lin][col].getPecaPosicao().desenho();
 
         // Se o deseho do simbolo for 'p' ou 'P', significa que eh um peao:
         if (simbolo == 'p' || simbolo == 'P')
@@ -300,8 +298,8 @@ public class Tabuleiro
         }
     }
 
-    /* Realiza todas as checagens relacionadas ao tabuleiro.
-        Retorna true, se o movimento puder ser realizado, ou false, caso contrário. */
+    /* -> Realiza todas as checagens relacionadas ao tabuleiro.
+           -> Retorna true, se o movimento puder ser realizado, ou false, caso contrário. */
     public void checaTudo(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino, int vez)
     {
         Peca pecaOrigem = CASAS[linhaOrigem][colunaOrigem].getPecaPosicao();
@@ -333,7 +331,6 @@ public class Tabuleiro
         }
         
         
-        // FALTA PENSAR A RESPEITO
         else if (pecaOrigem.desenho() == 'p' || pecaOrigem.desenho() == 'P' && pecaDestino == null)
         {    
             if (pecaOrigem.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
@@ -362,8 +359,8 @@ public class Tabuleiro
         }
     }
 
-    /* Realiza a movimentacao das pecas. Esse metodo so eh chamado se todos os metodos anteriores retorarem true.
-        Retorna true, se o movimento tiver sido realizado, ou false, caso contrário. */
+    /* -> Realiza a movimentacao das pecas. Esse metodo so eh chamado se todos os metodos anteriores retorarem true.
+           -> Retorna true, se o movimento tiver sido realizado, ou false, caso contrário. */
     private boolean movimentaPeca(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check)
     {
         Peca pecaOrigem = CASAS[linOrigem][colOrigem].getPecaPosicao();
@@ -373,7 +370,7 @@ public class Tabuleiro
         if (pecaDestino != null)
         {
             // A captura da peca nao foi realizada:
-            if (capturaPeca(linOrigem, colOrigem, linDestino, colDestino, check) == false)
+            if (capturaPeao(linOrigem, colOrigem, linDestino, colDestino, true) == false)
             {
                 return false;
             }
@@ -384,7 +381,7 @@ public class Tabuleiro
             return false;
         }
         
-        // Como nao esta em xeque, os as acoes precisam ser permanentes:
+        // Como nao esta em xeque, portanto, as acoes precisam ser permanentes:
         if (check == false)
         {
             // Ocupa a casa de destino com a peca da origem, passando PecaOrigem para o atributo pecaPosicao:
@@ -399,38 +396,42 @@ public class Tabuleiro
         return true;
     }
     
-    /* Realiza a captura das pecas. Esse metodo so eh chamado dentro do metodo movimentaPeca().
-        Retorna true, se a captura tiver sido realizada, ou false, caso contrário. */
-    private boolean capturaPeca(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check)
+    /* -> Realiza a captura das pecas. Esse metodo so eh chamado dentro do metodo movimentaPeca().
+           -> Retorna true, se a captura tiver sido realizada, ou false, caso contrário. */
+    private boolean capturaPeao(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check)
     {
         Peca pecaOrigem = CASAS[linOrigem][colOrigem].getPecaPosicao();
         Peca pecaDestino = CASAS[linDestino][colDestino].getPecaPosicao();
 
-        // Captura especifico para um Peao Branco:
-        if (pecaOrigem.simbolo == 'p') {
+        // Captura especifica para um Peao Branco:
+        if (pecaOrigem.simbolo == 'p')
+        {
             /* -> Como para os peoes brancos a captura deve ser feita apenas uma casa ao norte,
                  a linOrigem eh uma unidade menor que a linDestino.
                -> Como a captura deve ser feita apenas uma casa a oeste ou a leste, a colOrigem
                  eh uma unidade maior ou uma unidade menor que a colDestino.
                  Uso Math.abs(), para que tanto 1 quanto -1 sejam convertidos em 1. */
             // Esta fora da area de captura do Peao Branco:
-            if (((linOrigem - linDestino) != -1) && (Math.abs(colOrigem - colDestino) != 1)) {
+            if (((linOrigem - linDestino) != -1) && (Math.abs(colOrigem - colDestino) != 1))
+            {
                 return false;
             }
-        } // Captura especifico para um Peao Preto:
-        else if (pecaOrigem.simbolo == 'P') {
+        } // Captura especifica para um Peao Preto:
+        else if (pecaOrigem.simbolo == 'P')
+        {
             /* -> Como para os peoes pretos a captura deve ser feita apenas uma casa ao sul,
                  a linOrigem eh uma unidade maior que a linDestino.
                -> Como a captura deve ser feita apenas uma casa a oeste ou a leste, a colOrigem
                  eh uma unidade menor ou uma unidade maior que a colDestino.
                  Uso Math.abs(), para que tanto -1 quanto 1 sejam convertidos em 1. */
             // Esta fora da area de captura do Peao Preto:
-            if (((linOrigem - linDestino) != 1) && (Math.abs(colOrigem - colDestino) != 1)) {
+            if (((linOrigem - linDestino) != 1) && (Math.abs(colOrigem - colDestino) != 1))
+            {
                 return false;
             }
         }
 
-        // O atributo capturado da Peca do destino eh mudado pra true:
+        // O atributo capturado, da peca do destino eh mudado pra true:
         if (check == false) {
             pecaDestino.setCapturado();
         }
@@ -438,48 +439,57 @@ public class Tabuleiro
         return true;
     }
 
+    /* -> Verifica se um dos reis esta em xeque (varia de acordo com a rodada).
+           -> Retorna true, se o rei em questao esta em xeque, ou false, caso contrário. */
     public boolean xeque(int vez)
     {
-        int linRei = -1, colRei = -1;
-        Peca meuRei = null;
+        int linRei = -1;
+        int colRei = -1;
+        Peca reiEmXeque = null;
 
-        // Percorro todo o tabuleiro para encontrar o Rei Branco ou o Rei Preto:
-        for (int lin = 0; lin <= 7; lin++) {
-            for (int col = 0; col <= 7; col++) {
-                if (vez == 0 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'r') {
+        // Percorre todo o tabuleiro para encontrar o Rei Branco ou o Rei Preto:
+        for (int lin = 0; lin <= 7; lin++)
+        {
+            for (int col = 0; col <= 7; col++)
+            {
+                // A vez 0 eh do jogador que controla as pecas brancas:
+                if (vez == 0 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'r')
+                {
                     linRei = lin;
                     colRei = col;
-                    meuRei = CASAS[linRei][colRei].getPecaPosicao();
+                    reiEmXeque = CASAS[linRei][colRei].getPecaPosicao();
                     break;
 
-                } else if (vez == 1 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'R') {
+                }
+                // A vez 1 eh do jogador que controla as pecas pretas:
+                else if (vez == 1 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'R')
+                {
                     linRei = lin;
                     colRei = col;
-                    meuRei = CASAS[linRei][colRei].getPecaPosicao();
+                    reiEmXeque = CASAS[linRei][colRei].getPecaPosicao();
                     break;
                 }
             }
         }
-        //Apenas porque o netbeans encheu o saco
-        if (linRei == -1 && colRei == -1) {
-            return false;
-        }
 
-        for (int lin = 0; lin <= 7; lin++) {
-            for (int col = 0; col <= 7; col++) {
+        // Percorre todo o tabuleiro para verificar se o rei em questao esta em cheque:
+        for (int lin = 0; lin <= 7; lin++)
+        {
+            for (int col = 0; col <= 7; col++)
+            {
 
-                if (CASAS[lin][col].getPecaPosicao() != null
-                        //&& CASAS[lin][col].getPecaPosicao().desenho() != 'p' && CASAS[lin][col].getPecaPosicao().desenho() != 'P'
-                        && meuRei != null && !meuRei.getCor().equals(CASAS[lin][col].getPecaPosicao().getCor())) {
+                if (CASAS[lin][col].getPecaPosicao() != null && reiEmXeque != null && !reiEmXeque.getCor().equals(CASAS[lin][col].getPecaPosicao().getCor()))
+                {
 
-                    if (CASAS[lin][col].getPecaPosicao().checaMovimento(lin, col, linRei, colRei) == true
-                            && caminhoLivre(lin, col, linRei, colRei) == true) {
-                        if (movimentaPeca(lin, col, linRei, colRei, true)) {
+                    if (CASAS[lin][col].getPecaPosicao().checaMovimento(lin, col, linRei, colRei) == true && caminhoLivre(lin, col, linRei, colRei) == true)
+                    {
+                        if (movimentaPeca(lin, col, linRei, colRei, true) == true)
+                        {
                             System.out.println("Teste " + lin + " " + col + " " + CASAS[lin][col].getPecaPosicao().desenho());
+                            
                             return true;
                         }
                     }
-
                 }
             }
         }
@@ -487,10 +497,10 @@ public class Tabuleiro
         return false;
     }
 
-    /* ===========================================================================
+/* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Tabuleiro: >>>
+// <<< Construtor da classe Tabuleiro: >>>
     public Tabuleiro(Peca[] pecas) {
         this.CASAS = new Posicao[8][8];
         

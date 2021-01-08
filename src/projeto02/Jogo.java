@@ -10,6 +10,7 @@
  *          -> Verificar se o formato do movimento que o usuario inseriu esta correto.
  *          -> Controlar o estado em que se encontra a partida, por exemplo: inicio do jogo, xeque e xeque-mate (proxima fase).
  */
+
 package projeto02;
 
 import java.io.BufferedReader;
@@ -21,19 +22,20 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * ==========================================================================
- * Universidade Federal de Sao Carlos - Campus Sorocaba Disciplina: Programacao
- * Orientada a Objetos Profa Katti Faceli
+/** ==========================================================================
+ *  Universidade Federal de Sao Carlos - Campus Sorocaba
+ *  Disciplina: Programacao Orientada a Objetos
+ *  Profa Katti Faceli
  *
- * PROJETO 02
+ *  PROJETO 02
  *
- * RA: 743590 Autor: Rafael P Toledo
- * ==========================================================================.
- */
-public class Jogo {
+ *  RA: 743590
+ *  Autor: Rafael P Toledo
+ *  ==========================================================================. */
 
-    /* ===========================================================================
+public class Jogo
+{
+/* ===========================================================================
  * ================================ ATRIBUTOS ================================
  * =========================================================================== */
     private final Tabuleiro MESA; // Usado para criar uma mesa de jogo da classe Tabuleiro.
@@ -43,29 +45,36 @@ public class Jogo {
     private String estado; // Atributo que define em que estado o jogo se encontra, podendo ser "inicio", "xeque" e "xeque-mate".
     private final ArrayList<String> JOGADASVALIDAS; // Serve para armazenar as jogadas validas que serao salvas no arquivo.
 
-    /* ===========================================================================
+
+/* ===========================================================================
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     // Alterna as jogadas entre os dois Jogadores:
-    public void alternaJogadas() {
+    public void alternaJogadas()
+    {
         boolean jogoRetomado = false;
         int pretasEmXeque = 0;
         int brancasEmXeque = 0;
-        // Serve para carregar o jogo na variavel jogadasValidasAux:
+        // Carrega o jogo na variavel jogadasValidasAux:
         ArrayList<String> jogadasValidasAux = new ArrayList();
 
         char escolhaCont;
 
-        do {
+        do
+        {
             escolhaCont = desejaContinuar();
-            if (escolhaCont != 's' && escolhaCont != 'n') {
+            if (escolhaCont != 's' && escolhaCont != 'n')
+            {
                 System.out.println("A escolha eh invalida.");
             }
         } while (escolhaCont != 's' && escolhaCont != 'n');
 
-        if (JOGADASVALIDAS.isEmpty() && escolhaCont == 's') {
+        if (JOGADASVALIDAS.isEmpty() && escolhaCont == 's')
+        {
             retomaJogo(jogadasValidasAux);
-        } else {
+        }
+        else
+        {
 
             jogoRetomado = true;
             JOGADASVALIDAS.clear();
@@ -78,31 +87,46 @@ public class Jogo {
             this.MESA.imprimeTabuleiro();
         }
 
-        for (int alt = 0; !this.estado.equals("xeque-mate"); alt++) {
-            if (jogoRetomado == false) {
-                if (this.MESA.xeque(alt % 2)) {
-                    if (alt % 2 == 0) {
+        for (int alt = 0; !this.estado.equals("xeque-mate"); alt++)
+        {
+            if (jogoRetomado == false)
+            {
+                if (this.MESA.xeque(alt % 2))
+                {
+                    if (alt % 2 == 0)
+                    {
                         System.out.println("As peças brancas estão em xeque");
                         brancasEmXeque += 1;
-                    } else if (alt % 2 == 1) {
+                    }
+                    else if (alt % 2 == 1)
+                    {
                         System.out.println("As peças pretas estão em xeque");
                         pretasEmXeque += 1;
                     }
-                } else if (!this.MESA.xeque(alt % 2)) {;
-                    if (alt % 2 == 0) {
+                }
+                else if (!this.MESA.xeque(alt % 2))
+                {
+                    if (alt % 2 == 0)
+                    {
                         brancasEmXeque = 0;
                         System.out.println("As peças brancas estão em xeque");
-                    } else if (alt % 2 == 1) {
+                    }
+                    else if (alt % 2 == 1)
+                    {
                         brancasEmXeque = 0;
                         System.out.println("As peças pretas estão em xeque");
                     }
                 }
 
-                // O ponto e virgula em cima do for significa que vou usar o alt para iniciar o for:
-                for (; alt < jogadasValidasAux.size(); alt++) {
-                    if (alt % 2 == 0 && recebeJogada(alt, jogadasValidasAux.get(alt), true) == false) {
+                // O ponto e virgula a esquerda do for significa que vou usar o alt para iniciar o for:
+                for (; alt < jogadasValidasAux.size(); alt++)
+                {
+                    if (alt % 2 == 0 && recebeJogada(alt, jogadasValidasAux.get(alt), true) == false)
+                    {
                         alt--;
-                    } else if (alt % 2 == 1 && recebeJogada(alt, jogadasValidasAux.get(alt), true) == false) {
+                    }
+                    else if (alt % 2 == 1 && recebeJogada(alt, jogadasValidasAux.get(alt), true) == false)
+                    {
                         alt--;
                     }
 
@@ -118,20 +142,29 @@ public class Jogo {
                 this.MESA.imprimeTabuleiro();
             }
 
-            if (jogoRetomado == true) {
-
-                if (this.MESA.xeque(alt % 2)) {
-                    if (alt % 2 == 0) {
+            if (jogoRetomado == true)
+            {
+                if (this.MESA.xeque(alt % 2))
+                {
+                    if (alt % 2 == 0)
+                    {
                         System.out.println("As peças brancas estão em xeque");
                         brancasEmXeque += 1;
-                    } else if (alt % 2 == 1) {
+                    }
+                    else if (alt % 2 == 1)
+                    {
                         System.out.println("As peças pretas estão em xeque");
                         pretasEmXeque += 1;
                     }
-                } else if (!this.MESA.xeque(alt % 2)) {
-                    if (alt % 2 == 0) {
+                }
+                else if (!this.MESA.xeque(alt % 2))
+                {
+                    if (alt % 2 == 0)
+                    {
                         brancasEmXeque = 0;
-                    } else if (alt % 2 == 1) {
+                    }
+                    else if (alt % 2 == 1)
+                    {
                         pretasEmXeque = 0;
                     }
                 }
@@ -140,18 +173,24 @@ public class Jogo {
                 System.out.println("Pretas: " + pretasEmXeque);
 
                 // Rei preto for capturado, o branco ganha
-                if (this.PECAS[28].isCapturado() == true) {
+                if (this.PECAS[28].isCapturado() == true)
+                {
                     System.out.println("O jogador " + JOGADOR1.getNOME() + " das peças brancas ganhou!");
                     break;
                     // Rei branco for capturado, o preto ganha 
-                } else if (this.PECAS[15].isCapturado() == true) {
+                }
+                else if (this.PECAS[15].isCapturado() == true)
+                {
                     System.out.println("O jogador " + JOGADOR2.getNOME() + " das peças pretas ganhou!");
                     break;
                 }
 
-                if (alt % 2 == 0 && recebeJogada(JOGADOR1, alt) == false) {
+                if (alt % 2 == 0 && recebeJogada(JOGADOR1, alt) == false)
+                {
                     alt--;
-                } else if (alt % 2 == 1 && recebeJogada(JOGADOR2, alt) == false) {
+                }
+                else if (alt % 2 == 1 && recebeJogada(JOGADOR2, alt) == false)
+                {
                     alt--;
                 }
 
@@ -160,7 +199,8 @@ public class Jogo {
     }
 
     // Recebe a jogada do Jogador:
-    private boolean recebeJogada(Jogador jogador, int alt) {
+    private boolean recebeJogada(Jogador jogador, int alt)
+    {
         String jogada;
         Scanner leJogada = new Scanner(System.in);
 
@@ -180,23 +220,29 @@ public class Jogo {
     }
 
     // Sobrecarrego o recebeJogada, para retomar o jogo salvo:
-    private boolean recebeJogada(int alt, String jogada, boolean impressaoJogoRetomado) {
+    private boolean recebeJogada(int alt, String jogada, boolean impressaoJogoRetomado)
+    {
         return realizaJogada(jogada, alt, impressaoJogoRetomado);
     }
 
     // Serve para realizar a jogada, caso ela seja valida, ou entao informar o erro:
-    private boolean realizaJogada(String jogada, int alt, boolean jogoRetomado) {
-        try {
-            if (jogada.equals("salvar")) {
+    private boolean realizaJogada(String jogada, int alt, boolean jogoRetomado)
+    {
+        try
+        {
+            if (jogada.equals("salvar"))
+            {
                 this.salvaJogo();
                 return false; // Serve para nao incrementar, quando salvar o jogo.
-            } else if (jogada.equals("fechar")) {
+            } else if (jogada.equals("fechar"))
+            {
                 System.exit(0); // Termina o programa com sucesso (representado por 0).
             } // Esta no tamanho da formatacao correta:
-            else if (checaFormato(jogada) == true) {
+            else if (checaFormato(jogada) == true)
+            {
                 // Converto os valores referentes as linhas e colunas que foram passadas:
-                /* Fiz (linha - 49) e typecast ( (int) coluna - 97), para lidar com a matriz do tabuleiro.
-                        Desse modo, temos linhas de (0 a 7) e colunas de (0 a 7). */
+                /* Faco (linha - 49) e typecast ((int) coluna - 97), para lidar com a matriz do tabuleiro.
+                                    Desse modo, temos linhas de (0 a 7) e colunas de (0 a 7). */
                 int linOrigem = jogada.charAt(1) - 49;
                 int colOrigem = (int) (jogada.charAt(4) - 97);
                 int linDestino = jogada.charAt(11) - 49;
@@ -206,7 +252,8 @@ public class Jogo {
                 // Armazena as jogadas validas que serao salvas no arquivo:
                 this.JOGADASVALIDAS.add(jogada);
 
-                if (jogoRetomado == false) {
+                if (jogoRetomado == false)
+                {
                     // Se o jogo nao estiver sendo carregado, imprimo uma confirmacao da jogada e o tabuleiro:
                     System.out.println("Jogada realizada com sucesso!\n");
                     MESA.imprimeTabuleiro();
@@ -215,12 +262,16 @@ public class Jogo {
                 // Nao esta no tamanho da formatacao correta:
                 /* "(X, X) -> (X, X)", 16 caracteres no total. */
                 // Esta no tamanho da formatacao correta, mas ao menos um caractere difere do formato esperado:
-            } else {
+            }
+            else
+            {
                 throw new Error("A formatacao da jogada esta incorreta!\n");
             }
 
             return true;
-        } catch (Error e) {
+        }
+        catch (Error e)
+        {
             System.out.println(e.getMessage());
 
             return false;
@@ -228,13 +279,15 @@ public class Jogo {
     }
 
     // Verifica se o formato do movimento que o usuario inseriu esta correto:
-    private boolean checaFormato(String jogada) {
+    private boolean checaFormato(String jogada)
+    {
         /* Se a entrada estiver dentro do padrao "(X, X) -> (X, X)", com cada X representando apenas um
-            caractere referente as linhas e colunas de origem e destino do jogador, o formato eh valido.
-        A validade das linhas e colunas inseridas, sera verificada no metodo checaTabuleiro dedicado a isso. */
+                    caractere referente as linhas e colunas de origem e destino do jogador, o formato eh valido.
+                    A validade das linhas e colunas inseridas, eh verificada no metodo checaTabuleiro dedicado a isso. */
         if (jogada.length() == 16 && jogada.charAt(0) == '(' && jogada.charAt(2) == ',' && jogada.charAt(3) == ' ' && jogada.charAt(5) == ')'
-                && jogada.charAt(6) == ' ' && jogada.charAt(7) == '-' && jogada.charAt(8) == '>' && jogada.charAt(9) == ' '
-                && jogada.charAt(10) == '(' && jogada.charAt(12) == ',' && jogada.charAt(13) == ' ' && jogada.charAt(15) == ')') {
+          && jogada.charAt(6) == ' ' && jogada.charAt(7) == '-' && jogada.charAt(8) == '>' && jogada.charAt(9) == ' '
+          && jogada.charAt(10) == '(' && jogada.charAt(12) == ',' && jogada.charAt(13) == ' ' && jogada.charAt(15) == ')')
+        {
             return true;
         }
 
@@ -242,7 +295,8 @@ public class Jogo {
     }
 
     // Imprime um menu com o numero da rodada e todas as pecas que ja foram capturadas:
-    private void imprimeMenu(Jogador jogador, int alt) {
+    private void imprimeMenu(Jogador jogador, int alt)
+    {
         // A funcao Math.floor arredonda as casas decimais para baixo.
         /* Somo 1 a alt para que a primeira jogada do JOGADOR1 seja contabilizada
             e somo 2 a alt para que a rodada inicial seja 1, ao inves de 0. */
@@ -254,15 +308,18 @@ public class Jogo {
     }
 
     // Imprime todas as pecas de um jogador especifico, que ja foram capturadas:
-    private void imprimeCapturadas(Jogador jogador) {
+    private void imprimeCapturadas(Jogador jogador)
+    {
         ArrayList<String> pecasCapturadas = new ArrayList();
 
         // Se o jogador que joga com as pecas brancas, n recebe 16, caso contrario, n recebe 32:
         int n = (jogador.getCORPECAS().equals("brancas")) ? 16 : 32;
 
         // Se o jogador que joga com as pecas brancas, i recebe 0, caso contrario, i recebe 16:
-        for (int i = (jogador.getCORPECAS().equals("brancas")) ? 0 : 16; i < n; i++) {
-            if (PECAS[i].isCapturado()) {
+        for (int i = (jogador.getCORPECAS().equals("brancas")) ? 0 : 16; i < n; i++)
+        {
+            if (PECAS[i].isCapturado())
+            {
                 // Coloco "" + para converter o desenho da Peca de char para String:
                 pecasCapturadas.add("" + PECAS[i].desenho());
             }
@@ -272,8 +329,10 @@ public class Jogo {
     }
 
     // Serve para salvar o jogo:
-    private void salvaJogo() {
-        try {
+    private void salvaJogo()
+    {
+        try
+        {
             Scanner leNomeArquivo = new Scanner(System.in);
 
             System.out.print("\nDigite o nome do arquivo onde sera salvo o jogo: ");
@@ -284,18 +343,23 @@ public class Jogo {
             System.out.println("O arquivo foi escrito com sucesso!\n");
 
             int n = this.JOGADASVALIDAS.size();
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++)
+            {
                 pw.println(this.JOGADASVALIDAS.get(i));
             }
             pw.close();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             System.out.println("\nOcorreu um erro ao tentar salvar o jogo no arquivo.");
         }
     }
 
     // Serve para retomar o jogo da onde ele foi parado:
-    private void retomaJogo(ArrayList<String> jogadasValidasAux) {
-        try {
+    private void retomaJogo(ArrayList<String> jogadasValidasAux)
+    {
+        try
+        {
             Scanner leNomeArquivo = new Scanner(System.in);
 
             System.out.print("\nDigite o nome do arquivo da onde o jogo sera carregado: ");
@@ -306,21 +370,27 @@ public class Jogo {
 
             String str;
 
-            while ((str = br.readLine()) != null) {
+            while ((str = br.readLine()) != null)
+            {
                 jogadasValidasAux.add(str);
             }
 
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             System.out.println("Arquivo nao encontrado, foi impossivel carregar o jogo.");
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             System.err.println("Ocorreu um erro, tente novamente!");
         }
     }
 
-    private char desejaContinuar() {
+    private char desejaContinuar()
+    {
         Scanner leEscolha = new Scanner(System.in);
 
-        System.out.print("\nDeseja continuar um jogo salvo? Caso deseje, digite 'S', caso contrario, digite 'N': ");
+        System.out.print("\n\nDeseja continuar um jogo salvo? Caso deseje, digite 'S', caso contrario, digite 'N': ");
         char escolha = leEscolha.next().charAt(0);
 
         // Converte a escolha para letras minusculas:
@@ -329,11 +399,12 @@ public class Jogo {
         return escolha;
     }
 
-    /* ===========================================================================
+/* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Jogo: >>>
-    public Jogo() {
+// <<< Construtor da classe Jogo: >>>
+    public Jogo() throws CorPecaException
+    {
         // O jogo comeca no estado "inicio":
         this.estado = "inicio";
 
@@ -343,67 +414,78 @@ public class Jogo {
         // Cria o Segundo Jogador, que controla as Pecas Pretas:
         this.JOGADOR2 = new Jogador("pretas");
 
-/*--> CRIA E AS 32 PECAS: <--*/
+    /*--> CRIA E AS 32 PECAS: <--*/
         this.PECAS = new Peca[32];
 
-/*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
-    // 8 Peoes Brancos:
-        for (int id = 0; id < 8; id++) {
-            this.PECAS[id] = new Peao("brc");
+        try
+        {
+    /*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
+        // 8 Peoes Brancos:
+            for (int id = 0; id < 8; id++)
+            {
+                this.PECAS[id] = new Peao("brc");
+            }
+
+        // Torre Branca (Esquerda):
+            this.PECAS[8] = new Torre("brc");
+        // Torre Branca (Direita):
+            this.PECAS[9] = new Torre("brc");
+        // Cavalo Branco (Esquerda):
+            this.PECAS[10] = new Cavalo("brc");
+        // Cavalo Branco (Direita):
+            this.PECAS[11] = new Cavalo("brc");
+        // Bispo Branco (Esquerda):
+            this.PECAS[12] = new Bispo("brc");
+        // Bispo Branco (Direita):
+            this.PECAS[13] = new Bispo("brc");
+        // Dama Branca:
+            this.PECAS[14] = new Dama("brc");
+        // Rei Branco:
+            this.PECAS[15] = new Rei("brc");
+
+    /*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
+        // 8 Peoes Pretos:
+            for (int id = 16; id < 24; id++)
+            {
+                this.PECAS[id] = new Peao("prt");
+            }
+
+        // Torre Preta (Esquerda):
+            this.PECAS[24] = new Torre("prt");
+        // Torre Preta (Direita):
+            this.PECAS[31] = new Torre("prt");
+        // Cavalo Preto (Esquerda):
+            this.PECAS[25] = new Cavalo("prt");
+        // Cavalo Preto (Direita):
+            this.PECAS[30] = new Cavalo("prt");
+        // Bispo Preto (Esquerda):
+            this.PECAS[26] = new Bispo("prt");
+        // Bispo Preto (Direita):
+            this.PECAS[29] = new Bispo("prt");
+        // Dama Preta:
+            this.PECAS[27] = new Dama("prt");
+        // Rei Preto:
+            this.PECAS[28] = new Rei("prt");
         }
-
-    // Torre Branca (Esquerda):
-        this.PECAS[8] = new Torre("brc");
-    // Torre Branca (Direita):
-        this.PECAS[9] = new Torre("brc");
-    // Cavalo Branco (Esquerda):
-        this.PECAS[10] = new Cavalo("brc");
-    // Cavalo Branco (Direita):
-        this.PECAS[11] = new Cavalo("brc");
-    // Bispo Branco (Esquerda):
-        this.PECAS[12] = new Bispo("brc");
-    // Bispo Branco (Direita):
-        this.PECAS[13] = new Bispo("brc");
-    // Dama Branca:
-        this.PECAS[14] = new Dama("brc");
-    // Rei Branco:
-        this.PECAS[15] = new Rei("brc");
-
-/*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
-    // 8 Peoes Pretos:
-        for (int id = 16; id < 24; id++) {
-            this.PECAS[id] = new Peao("prt");
+        catch (CorPecaException e)
+        {
+            System.out.println("O parametro para a cor da peca eh invalido!\n");
         }
-
-    // Torre Preta (Esquerda):
-        this.PECAS[24] = new Torre("prt");
-    // Torre Preta (Direita):
-        this.PECAS[31] = new Torre("prt");
-    // Cavalo Preto (Esquerda):
-        this.PECAS[25] = new Cavalo("prt");
-    // Cavalo Preto (Direita):
-        this.PECAS[30] = new Cavalo("prt");
-    // Bispo Preto (Esquerda):
-        this.PECAS[26] = new Bispo("prt");
-    // Bispo Preto (Direita):
-        this.PECAS[29] = new Bispo("prt");
-    // Dama Preta:
-        this.PECAS[27] = new Dama("prt");
-    // Rei Preto:
-        this.PECAS[28] = new Rei("prt");
-
+        
         // Cria o Tabuleiro:
         this.MESA = new Tabuleiro(PECAS);
         // Cria um objeto do tipo ArrayList para armazenar os movimentos validos:
         this.JOGADASVALIDAS = new ArrayList();
     }
 
-    // <<< Getters e Setters da classe Jogo: >>>
-    public String getEstado() {
+// <<< Getters e Setters da classe Jogo: >>>
+    public String getEstado()
+    {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(String estado)
+    {
         this.estado = estado;
     }
 }

@@ -30,14 +30,15 @@ public class Rei extends Peca
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     @Override
-    // Retorna o elemento que representa a peca Rei, que sera desenhada na tela:
+    // Retorna o simbolo do rei.
     public char desenho()
     {
         return simbolo;
     }
     
     @Override
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para a peca Rei:
+    /* -> Verifica se o movimento pode ser realizado por um rei.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // Se as distancias entre a (linhaOrigem e linhaDestino) e a (colunaOrigem e colunaDestino) forem 0 ou 1:
@@ -53,29 +54,18 @@ public class Rei extends Peca
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Rei: >>>
-    public Rei(String cor)
+// <<< Construtor da classe Rei: >>>
+    public Rei(String cor) throws CorPecaException
     {
-        try
-        {
-            switch (cor) {
-                case "brc":
-                    this.simbolo = 'r'; // 'r' simboliza a peca Rei Branco.
-                    break;
-                case "prt":
-                    this.simbolo = 'R'; // 'R' simboliza a peca Rei Preto.
-                    break;
-                default:
-                    throw new Error("O parametro para a cor do Rei eh invalido!\n");
-            }
-        }
-        catch(Error e)
-        {
-            System.out.println(e.getMessage() );
-            System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
-        }
+        super(cor);
         
-        this.cor = cor; // "brc" (branco) ou "prt" (preto) representam a cor da peca Rei.
-        this.capturado = false; // Usado para verificar se a peca Rei esta no jogo.
+        if(cor.equals("brc"))
+        {
+            this.simbolo = 'r';
+        }
+        else if(cor.equals("prt"))
+        {
+            this.simbolo = 'R';
+        }
     }
 }

@@ -29,17 +29,18 @@ public class Torre extends Peca
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     @Override
-    // Retorna o elemento que representa a peca Torre, que sera desenhada na tela:
+    // Retorna o simbolo da torre.
     public char desenho()
     {
         return simbolo;
     }
     
     @Override
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para a peca Torre:
+    /* -> Verifica se o movimento pode ser realizado por uma torre.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
-        // Se mudar apenas a linha ou apenas a coluna, o movimento eh valido.
+        // Se mudar apenas a linha ou apenas a coluna, o movimento eh valido:
         if (linhaOrigem == linhaDestino || colunaOrigem == colunaDestino)
         {
             return true;
@@ -52,29 +53,18 @@ public class Torre extends Peca
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Torre: >>>
-    public Torre(String cor)
+// <<< Construtor da classe Torre: >>>
+    public Torre(String cor) throws CorPecaException
     {
-        try
-        {
-            switch (cor) {
-                case "brc":
-                    this.simbolo = 't'; // 't' simboliza a peca Torre Branca.
-                    break;
-                case "prt":
-                    this.simbolo = 'T'; // 'T' simboliza a peca Torre Preta.
-                    break;
-                default:
-                    throw new Error("O parametro para a cor da Torre eh invalido!\n");
-            }
-        }
-        catch(Error e)
-        {
-            System.out.println(e.getMessage() );
-            System.exit(-1); // Termina o programa devido ao erro (-1) na passagem do parametro para a cor.
-        }
+        super(cor);
         
-        this.cor = cor; // "brc" (branco) ou "prt" (preto) representam a cor da peca Torre.
-        this.capturado = false; // Usado para verificar se a peca Torre esta no jogo.
+        if(cor.equals("brc"))
+        {
+            this.simbolo = 't';
+        }
+        else if(cor.equals("prt"))
+        {
+            this.simbolo = 'T';
+        }
     }
 }

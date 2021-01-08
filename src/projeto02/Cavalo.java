@@ -31,20 +31,21 @@ public class Cavalo extends Peca
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
     @Override
-    // Retorna o elemento que representa a peca Cavalo, que sera desenhada na tela:
+    // Retorna o simbolo do cavalo.
     public char desenho()
     {
         return simbolo;
     }
     
     @Override
-    // Verifica se o movimento que o usuario deseja fazer eh adequado para a peca Cavalo:
+    /* -> Verifica se o movimento pode ser realizado por um cavalo.
+       -> Retorna true, se o movimento for adequedado e false, caso contrario. */
     public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino)
     {
         // Fazendo o L para cima:
         if (linhaDestino - linhaOrigem == 2)
         {
-            // Uso o valor absoluto (modulo matematico), ja que o Cavalo pode fazer o L tanto para esquerda, quanto para a direita.
+            // Uso o valor absoluto (modulo matematico), ja que o cavalo pode fazer o L tanto para esquerda, quanto para a direita.
             if (Math.abs(colunaDestino - colunaOrigem) == 1)
             {
                 return true;
@@ -53,7 +54,7 @@ public class Cavalo extends Peca
         // Fazendo o L para a direita:
         else if (colunaDestino - colunaOrigem == 2)
         {
-            // Uso o valor absoluto (modulo matematico), ja que o Cavalo pode fazer o L tanto para cima, quanto para baixo.
+            // Uso o valor absoluto (modulo matematico), ja que o cavalo pode fazer o L tanto para cima, quanto para baixo.
             if (Math.abs(linhaDestino - linhaOrigem) == 1)
             {
                 return true;
@@ -62,7 +63,7 @@ public class Cavalo extends Peca
         // Fazendo o L para baixo:
         if (linhaDestino - linhaOrigem == -2)
         {
-            // Uso o valor absoluto (modulo matematico), ja que o Cavalo pode fazer o L tanto para esquerda, quanto para a direita.
+            // Uso o valor absoluto (modulo matematico), ja que o cavalo pode fazer o L tanto para esquerda, quanto para a direita.
             if (Math.abs(colunaDestino - colunaOrigem) == 1)
             {
                 return true;
@@ -71,7 +72,7 @@ public class Cavalo extends Peca
         // Fazendo o L para a esquerda:
         else if (colunaDestino - colunaOrigem == -2)
         {
-            // Uso o valor absoluto (modulo matematico), ja que o Cavalo pode fazer o L tanto para cima, quanto para baixo.
+            // Uso o valor absoluto (modulo matematico), ja que o cavalo pode fazer o L tanto para cima, quanto para baixo.
             if (Math.abs(linhaDestino - linhaOrigem) == 1)
             {
                 return true;
@@ -85,29 +86,18 @@ public class Cavalo extends Peca
 /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Cavalo: >>>
-    public Cavalo(String cor)
+// <<< Construtor da classe Cavalo: >>>
+    public Cavalo(String cor) throws CorPecaException
     {
-        try
-        {
-            switch (cor) {
-                case "brc":
-                    this.simbolo = 'c'; // 'c' simboliza a peca Cavalo Branco.
-                    break;
-                case "prt":
-                    this.simbolo = 'C'; // 'C' simboliza a peca Cavalo Preto.
-                    break;
-                default:
-                    throw new Error("O parametro para a cor do Cavalo eh invalido!\n");
-            }
-        }
-        catch(Error e)
-        {
-            System.out.println(e.getMessage() );
-            System.exit(-1); // Termina o programa devido ao erro na passagem do parametro para a cor (representado por -1).
-        }
+        super(cor);
         
-        this.cor = cor; // "brc" (branco) ou "prt" (preto) representam a cor da peca Cavalo.
-        this.capturado = false; // Usado para verificar se a peca Cavalo esta no jogo.
+        if(cor.equals("brc"))
+        {
+            this.simbolo = 'c';
+        }
+        else if(cor.equals("prt"))
+        {
+            this.simbolo = 'C';
+        }
     }
 }

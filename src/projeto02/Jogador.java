@@ -8,72 +8,79 @@
  *          -> Verificar se o nome digitado pelo usuario eh valido.
  *          -> Retornar quais Pecas do Jogador ainda estao ativas no Jogo (proxima fase).
  */
+
 package projeto02;
 
 import java.util.Scanner;
 
-/**
- * ==========================================================================
- * Universidade Federal de Sao Carlos - Campus Sorocaba Disciplina: Programacao
- * Orientada a Objetos Profa Katti Faceli
+/** ==========================================================================
+ *  Universidade Federal de Sao Carlos - Campus Sorocaba
+ *  Disciplina: Programacao Orientada a Objetos
+ *  Profa Katti Faceli
  *
- * PROJETO 02
+ *  PROJETO 02
  *
- * RA: 743590 Autor: Rafael P Toledo
- * ==========================================================================.
- */
-public class Jogador {
+ *  RA: 743590
+ *  Autor: Rafael P Toledo
+ *  ==========================================================================. */
 
-    /* ===========================================================================
+public class Jogador
+{
+/* ===========================================================================
  * ================================ ATRIBUTOS ================================
  * =========================================================================== */
-    private final String NOME; // Usado para armazenar o nome do Jogador.
-    private final String CORPECAS; // Usado para armazenar a cor das pecas do Jogador
-    private final Peca[] PECASPOSSUIDAS; // Usado para armazenar as 16 pecas do Jogador.
+    private final String NOME; // Usado para armazenar o nome do jogador.
+    private final String CORPECAS; // Usado para armazenar a cor das pecas do jogador
+    private final Peca[] PECASPOSSUIDAS; // Usado para armazenar as 16 pecas do jogador.
 
-    /* ===========================================================================
+    
+/* ===========================================================================
  * ============================= METODOS NORMAIS =============================
  * =========================================================================== */
-    // Verifica se o nome digitado pelo usuario eh valido:
-    private boolean checaNome(String nomeTestado) {
+    /* -> Verifica se o nome digitado eh valido.
+       -> Retorna true, se for valido e false, caso contrario. */
+    private boolean checaNome(String nomeTestado)
+    {
         /* O jogador pode escolher qualquer nome que queira, inclusive usando numeros e espacos,
             a unica limitacao eh que esse nome tenha pelo menos um e, no maximo, vinte caracteres. */
-        if (nomeTestado.length() > 0 && nomeTestado.length() <= 20) {
+        if (nomeTestado.length() > 0 && nomeTestado.length() <= 20)
+        {
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
-    // Retorna para o Jogador quais das suas Pecas ainda estao ativas no Jogo (proxima fase):
-    /* public void pecasAtivas()
-    {
-        
-    } */
+    
  /* ===========================================================================
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
-    // <<< Construtor da classe Jogador: >>>
-    public Jogador(String corPecas) {
+// <<< Construtor da classe Jogador: >>>
+    public Jogador(String corPecas)
+    {
         Scanner leNome = new Scanner(System.in);
         String nomeTestado;
-        boolean maiorquevinte;
+        boolean nomeErrado;
         
         do {
             System.out.print("\nDigite o nome do jogador (maximo 20 caracteres): ");
 
             nomeTestado = leNome.nextLine();
-            maiorquevinte = checaNome(nomeTestado);
-            if(!maiorquevinte){
+            nomeErrado = checaNome(nomeTestado);
+            if(!nomeErrado)
+            {
                 System.out.println("O nome digitado eh invalido!");                
             }
-        } while (!maiorquevinte);
+        } while (!nomeErrado);
 
         this.NOME = nomeTestado;
 
-        if (!corPecas.equals("brancas") && !corPecas.equals("pretas")) {
-            while (corPecas.compareTo("brancas") != 0 && corPecas.compareTo("pretas") != 0) {
-                // PRECISO DE UM TRY CATCH AQUI.
+        if (!corPecas.equals("brancas") && !corPecas.equals("pretas"))
+        {
+            while (corPecas.compareTo("brancas") != 0 && corPecas.compareTo("pretas") != 0)
+            {
                 System.out.println("O parametro para cor das pecas eh invalido!");
                 break; // Sai do laco de repeticao.
             }
@@ -86,12 +93,14 @@ public class Jogador {
         System.out.println(this.getNOME() + " vai jogar com as pecas " + this.CORPECAS + ".");
     }
 
-    // <<< Getters e Setters da classe Jogador: >>>
-    public String getNOME() {
+// <<< Getters e Setters da classe Jogador: >>>
+    public String getNOME()
+    {
         return NOME;
     }
 
-    public String getCORPECAS() {
+    public String getCORPECAS()
+    {
         return CORPECAS;
     }
 }
