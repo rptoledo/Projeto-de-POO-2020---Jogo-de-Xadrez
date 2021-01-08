@@ -115,9 +115,9 @@ public class Tabuleiro
         Peca pecaMov = CASAS[linhaOrigem][colunaOrigem].getPecaPosicao();
         
         // Percorro todo o tabuleiro para fazer as verificacoes:
-        for (int linDest = 0; linDest <= 7; linDest++)
+        for (int linMeio = 0; linMeio <= 7; linMeio++)
         {
-            for (int colDest = 0; colDest <= 7; colDest++)
+            for (int colMeio = 0; colMeio <= 7; colMeio++)
             {
 /* <<< Checagem do caminho para Peoes Brancos: >>> */
                 if (pecaMov.simbolo == 'p')
@@ -125,11 +125,11 @@ public class Tabuleiro
     /* [Mov. Norte] -> A linhaOrigem eh menor que as linhas da proximas 2 casas ao norte.
                     -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
                     -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
-                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
-                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    if (linhaOrigem < linMeio && linMeio < linhaDestino // linhaOrigem < linMeio < linhaDestino
+                     && colunaOrigem == colMeio && colMeio == colunaDestino) // colunaOrigem = colMeio = colunaDestino.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -142,11 +142,11 @@ public class Tabuleiro
     /* [Mov. Sul] -> A linhaOrigem eh maior que as linhas da proximas 2 casas ao sul.
                   -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
                   -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
-                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
-                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    if (linhaDestino < linMeio && linMeio < linhaOrigem // linhaDestino < linMeio < linhaOrigem
+                     && colunaOrigem == colMeio && colMeio == colunaDestino) // colunaOrigem = colMeio = colunaDestino.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -159,11 +159,11 @@ public class Tabuleiro
     /* [Mov. Norte] -> A linhaOrigem eh menor que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
                     -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
                     -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
-                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
-                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    if (linhaOrigem < linMeio && linMeio < linhaDestino // linhaOrigem < linMeio < linhaDestino
+                     && colunaOrigem == colMeio && colMeio == colunaDestino) // colunaOrigem = colMeio = colunaDestino.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -172,11 +172,11 @@ public class Tabuleiro
     /* [Mov. Sul] -> A linhaOrigem eh maior que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
                   -> A colunaOrigem eh igual em todas as casas ate a casa da colunaDestino, inclusive.
                   -> Ao realizar o movimento pela VERTICAL, a coluna de uma casa eh igual a coluna de qualquer outra casa. */
-                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
-                     && colunaOrigem == colDest && colDest == colunaDestino) // colunaOrigem = colDest = colunaDestino.
+                    if (linhaDestino < linMeio && linMeio < linhaOrigem // linhaDestino < linMeio < linhaOrigem
+                     && colunaOrigem == colMeio && colMeio == colunaDestino) // colunaOrigem = colMeio = colunaDestino.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -185,11 +185,11 @@ public class Tabuleiro
     /* [Mov. Oeste] -> A linhaOrigem eh igual em todas as casas ate a casa da linhaDestino, inclusive.
                     -> A colunaOrigem eh maior que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
                     -> Ao realizar o movimento pela HORIZONTAL, a linha de uma casa eh igual a linha de qualquer outra casa. */
-                    if (linhaOrigem == linDest && linDest == linhaDestino // linhaOrigem = linDest = linhaDestino
-                     && colunaDestino < colDest && colDest < colunaOrigem) // colunaDestino < colDest < colunaOrigem.
+                    if (linhaOrigem == linMeio && linMeio == linhaDestino // linhaOrigem = linMeio = linhaDestino
+                     && colunaDestino < colMeio && colMeio < colunaOrigem) // colunaDestino < colMeio < colunaOrigem.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -198,11 +198,11 @@ public class Tabuleiro
     /* [Mov. Leste] -> A linhaOrigem eh igual em todas as casas ate a casa da linhaDestino, inclusive.
                     -> A colunaOrigem eh menor que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
                     -> Ao realizar o movimento pela HORIZONTAL, a linha de uma casa eh igual a linha de qualquer outra casa. */
-                    if (linhaOrigem == linDest && linDest == linhaDestino // linhaOrigem = linDest = linhaDestino
-                     && colunaOrigem < colDest && colDest < colunaDestino) // colunaOrigem < colDest < colunaDestino.
+                    if (linhaOrigem == linMeio && linMeio == linhaDestino // linhaOrigem = linMeio = linhaDestino
+                     && colunaOrigem < colMeio && colMeio < colunaDestino) // colunaOrigem < colMeio < colunaDestino.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -216,12 +216,12 @@ public class Tabuleiro
                        -> A colunaOrigem eh maior que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
                        -> Ao realizar o movimento pela DIAGONAL PRINCIPAL ou pelas diagonais paralelas a ela, a soma das linhas
                          e colunas de uma casa eh igual a soma das linhas e colunas de qualquer outra casa. */
-                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
-                     && colunaDestino < colDest && colDest < colunaOrigem // colunaDestino < colDest < colunaOrigem.
-                     && (linhaOrigem + colunaOrigem) == (linDest + colDest) ) // Apenas a diagonal do movimento sera checada.
+                    if (linhaOrigem < linMeio && linMeio < linhaDestino // linhaOrigem < linMeio < linhaDestino
+                     && colunaDestino < colMeio && colMeio < colunaOrigem // colunaDestino < colMeio < colunaOrigem.
+                     && (linhaOrigem + colunaOrigem) == (linMeio + colMeio) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -231,12 +231,12 @@ public class Tabuleiro
                       -> A colunaOrigem eh menor que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
                       -> Ao realizar o movimento pela DIAGONAL PRINCIPAL ou pelas diagonais paralelas a ela, a soma das linhas
                         e colunas de uma casa eh igual a soma das linhas e colunas de qualquer outra casa. */
-                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
-                     && colunaOrigem < colDest && colDest < colunaDestino // colunaOrigem < colDest < colunaDestino.
-                     && (linhaOrigem + colunaOrigem) == (linDest + colDest) ) // Apenas a diagonal do movimento sera checada.
+                    if (linhaDestino < linMeio && linMeio < linhaOrigem // linhaDestino < linMeio < linhaOrigem
+                     && colunaOrigem < colMeio && colMeio < colunaDestino // colunaOrigem < colMeio < colunaDestino.
+                     && (linhaOrigem + colunaOrigem) == (linMeio + colMeio) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -245,13 +245,13 @@ public class Tabuleiro
     /* [Mov. Nordeste] -> A linhaOrigem eh menor que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
                        -> A colunaOrigem eh menor que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
                        -> Ao realizar o movimento pela DIAGONAL SECUNDARIA ou pelas diagonais paralelas a ela, as subtracoes
-                         entre linhaOrigem e linDest e entre colunaOrigem e colDest sao equivalentes. */
-                    if (linhaOrigem < linDest && linDest < linhaDestino // linhaOrigem < linDest < linhaDestino
-                     && colunaOrigem < colDest && colDest < colunaDestino // colunaOrigem < colDest < colunaDestino.
-                     && (linhaOrigem - linDest) == (colunaOrigem - colDest) ) // Apenas a diagonal do movimento sera checada.
+                         entre linhaOrigem e linMeio e entre colunaOrigem e colMeio sao equivalentes. */
+                    if (linhaOrigem < linMeio && linMeio < linhaDestino // linhaOrigem < linMeio < linhaDestino
+                     && colunaOrigem < colMeio && colMeio < colunaDestino // colunaOrigem < colMeio < colunaDestino.
+                     && (linhaOrigem - linMeio) == (colunaOrigem - colMeio) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -260,13 +260,13 @@ public class Tabuleiro
     /* [Mov. Sudoeste] -> A linhaOrigem eh maior que as linhas de todas as casas ate a casa da linhaDestino, inclusive.
                        -> A colunaOrigem eh maior que as colunas de todas as casas ate a casa da colunaDestino, inclusive.
                        -> Ao realizar o movimento pela DIAGONAL SECUNDARIA ou pelas diagonais paralelas a ela, as subtracoes
-                         entre linhaOrigem e linDest e entre colunaOrigem e colDest sao equivalentes. */
-                    if (linhaDestino < linDest && linDest < linhaOrigem // linhaDestino < linDest < linhaOrigem
-                     && colunaDestino < colDest && colDest < colunaOrigem // colunaDestino < colDest < colunaOrigem.
-                     && (linhaOrigem - linDest) == (colunaOrigem - colDest) ) // Apenas a diagonal do movimento sera checada.
+                         entre linhaOrigem e linMeio e entre colunaOrigem e colMeio sao equivalentes. */
+                    if (linhaDestino < linMeio && linMeio < linhaOrigem // linhaDestino < linMeio < linhaOrigem
+                     && colunaDestino < colMeio && colMeio < colunaOrigem // colunaDestino < colMeio < colunaOrigem.
+                     && (linhaOrigem - linMeio) == (colunaOrigem - colMeio) ) // Apenas a diagonal do movimento sera checada.
                     {
                         // Verifica se ha alguma peca no caminho:
-                        if (CASAS[linDest][colDest].getPecaPosicao() != null)
+                        if (CASAS[linMeio][colMeio].getPecaPosicao() != null)
                         {
                             return false;
                         }
@@ -301,41 +301,48 @@ public class Tabuleiro
         return true;
     }
     
+    // Registra quando um Peao realiza seu primeiro movimento, mudando o atributo primeiroMov para false:
+    private void moveuPeao(int lin, int col)
+    {
+        int simbolo = CASAS[lin][col].getPecaPosicao().desenho();
+
+        // Se o deseho do simbolo for `p` ou `P`, significa que eh um peao:
+        if (simbolo == 'p' || simbolo == 'P')
+        {
+            // Faco downcast de Peca para Peao, de modo que consigo acessar o metodo setPrimeiroMov(), da classe Peao:
+            Peao peaoGenerico = (Peao) CASAS[lin][col].getPecaPosicao();
+            peaoGenerico.setPrimeiroMov();
+        }
+    }
+    
     // Realiza a movimentacao das pecas (esse metodo so eh chamado depois de todas as checagens retornarem positivamente):
-    public boolean movimenta(Tabuleiro MESA, boolean jogoRetomado, int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino)
+    public boolean movimenta(int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino)
     {
         // Se houver uma peca na posicao destino:
         if (pecaDestino != null)
         {
             // Se a captura nao foi realizada, retorna false:
-            if (capturaPeca(MESA, linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false)
+            if (capturaPeca(linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false)
             {
                 return false;
             }
         }
 
         // Ocupa a casa de destino com a Peca da origem (atributo pecaPosicao recebe pecaOrigem):
-        MESA.CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
+        CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
         // Deixa a casa de origem vazia (atributo pecaPosicao recebe null):
-        MESA.CASAS[linOrigem][colOrigem].setPecaPosicao(null);
+        CASAS[linOrigem][colOrigem].setPecaPosicao(null);
 
         // Registra quando um Peao realiza seu primeiro movimento:
-        moveuPeao(MESA, linDestino, colDestino);
-
-        // Se o jogo nao estiver sendo carregado, imprimo uma confirmacao da jogada e o tabuleiro:
-        if (jogoRetomado == false)
-        {
-            System.out.println("Jogada realizada com sucesso!\n");
-            imprimeTabuleiro();
-        }
+        moveuPeao(linDestino, colDestino);
         
         return true;
     }
     
     // Realiza a captura de pecas, retornando true em caso de sucesso e false, caso contrário:
-    public boolean capturaPeca(Tabuleiro MESA, int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino)
+    public boolean capturaPeca(int linOrigem, int colOrigem, Peca pecaOrigem, int linDestino, int colDestino, Peca pecaDestino)
     {
-        // Captura de um Peao Branco:
+        // Captura especifico para um Peao Branco:
         if (pecaOrigem.simbolo == 'p')
         {
             /* -> Como para os peoes brancos a captura deve ser feita apenas uma casa ao norte,
@@ -349,7 +356,7 @@ public class Tabuleiro
                 return false;
             }
         }
-        // Captura de um Peao Preto:
+        // Captura especifico para um Peao Preto:
         else if (pecaOrigem.simbolo == 'P')
         {
             /* -> Como para os peoes pretos a captura deve ser feita apenas uma casa ao sul,
@@ -370,18 +377,32 @@ public class Tabuleiro
         return true;
     }
     
-    // Registra quando um Peao realiza seu primeiro movimento, mudando o atributo primeiroMov para false:
-    private void moveuPeao(Tabuleiro MESA, int lin, int col)
+    private boolean xeque(Jogador jogador)
     {
-        int simbolo = MESA.CASAS[lin][col].getPecaPosicao().desenho();
-
-        // Se o deseho do simbolo for `p` ou `P`, significa que eh um peao:
-        if (simbolo == 'p' || simbolo == 'P')
+        // Percorro todo o tabuleiro para encontrar o Rei Branco ou o Rei Preto:
+        for (lin i = 0; lin <= 7; lin++)
         {
-            // Faco downcast de Peca para Peao, de modo que consigo acessar o metodo setPrimeiroMov(), da classe Peao:
-            Peao peaoGenerico = (Peao) MESA.CASAS[lin][col].getPecaPosicao();
-            peaoGenerico.setPrimeiroMov();
+            for (int col = 0; col <= 7; col++)
+            {
+                if(jogador.getCORPECAS().equals("brancas") )
+                {
+                    if (CASAS[lin][col].getPecaPosicao().desenho() == 'r')
+                    {
+                        linRei = lin;
+                        colRei = col
+                    }
+                }
+                else if (jogador.getCORPECAS().equals("pretas") )
+                {
+                    if (CASAS[linRei][colRei].getPecaPosicao().desenho() == 'R')
+                    {
+                        
+                    }
+                }
+            }
         }
+        
+        return true;
     }
     
     

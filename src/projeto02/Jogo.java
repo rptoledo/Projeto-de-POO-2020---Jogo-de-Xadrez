@@ -39,9 +39,9 @@ public class Jogo {
     private final Tabuleiro MESA; // Usado para criar uma mesa de jogo da classe Tabuleiro.
     private final Jogador JOGADOR1; // Usado para criar o primeiro Jogador.
     private final Jogador JOGADOR2; // Usado para criar o segundo Jogador.
-    private Peca[] pecas; // Usado para armazenar todas as 32 pecas do Jogo.
+    private final Peca[] PECAS; // Usado para armazenar todas as 32 pecas do Jogo.
     private String estado; // Atributo que define em que estado o jogo se encontra, podendo ser "inicio", "xeque" e "xeque-mate".
-    private ArrayList<String> jogadasValidas; // Serve para armazenar as jogadas validas que serao salvas no arquivo.
+    private final ArrayList<String> JOGADASVALIDAS; // Serve para armazenar as jogadas validas que serao salvas no arquivo.
 
 /* ===========================================================================
  * ============================= METODOS NORMAIS =============================
@@ -55,19 +55,19 @@ public class Jogo {
         
         char escolhaCont = desejaContinuar();
         
-        if (jogadasValidas.isEmpty() && escolhaCont == 's')
+        if (JOGADASVALIDAS.isEmpty() && escolhaCont == 's')
         {
             retomaJogo(jogadasValidasAux);
         }
         else
         {
-            if (jogadasValidas.isEmpty() && escolhaCont!= 'n')
+            if (JOGADASVALIDAS.isEmpty() && escolhaCont!= 'n')
             {
                 System.out.println("A escolha eh invalida.");
             }
             
             jogoRetomado = true;
-            jogadasValidas.clear();
+            JOGADASVALIDAS.clear();
             
             System.out.println("\n\n-----------------------------------------------------------------------------------------------------------------------");
             System.out.println("\t\t*****  Os limites do tabuleiro sao (1 a 8) para linhas e (a a h) para colunas.  *****");
@@ -187,12 +187,12 @@ public class Jogo {
                             throw new Error("Voce nao possui uma peca nessa posicao!\n");
                         }
                         // Ha uma peca na posicao de origem, mas ela eh do adversario:
-                        else if ( ( (alt % 2) == 0 && pecaOrigem.getCor() == "prt") || ( (alt % 2) == 1 && pecaOrigem.getCor() == "brc") )
+                        else if ( ( (alt % 2) == 0 && pecaOrigem.getCor().equals("prt") ) || ( (alt % 2) == 1 && pecaOrigem.getCor().equals("brc") ) )
                         {
                             throw new Error("Essa peca eh do seu adversario!\n");
                         }
                         // O jogador tem uma peca sua na posicao de origem, mas esta tentando capturar sua propria peca:
-                        else if (pecaDestino != null && ( ( (alt % 2) == 0 && pecaDestino.getCor() == "brc") || ( (alt % 2) == 1 && pecaDestino.getCor() == "prt") ) )
+                        else if (pecaDestino != null && ( ( (alt % 2) == 0 && pecaDestino.getCor().equals("brc") ) || ( (alt % 2) == 1 && pecaDestino.getCor().equals("prt") ) ) )
                         {
                             throw new Error("Voce esta tentando capturar sua propria peca!\n");
                         }
@@ -201,9 +201,18 @@ public class Jogo {
                         {
                             throw new Error("Movimentação invalida!\n");
                         }
-                        else if(MESA.movimenta(MESA, jogoRetomado, linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false)
+                        else if(MESA.movimenta(linOrigem, colOrigem, pecaOrigem, linDestino, colDestino, pecaDestino) == false)
                         {
-                            throw new Error("Captura ivalida!\n");
+                            throw new Error("Captura invalida!\n");
+                        }
+                        else
+                        {
+                            // Se o jogo nao estiver sendo carregado, imprimo uma confirmacao da jogada e o tabuleiro:
+                            if (jogoRetomado == false)
+                            {
+                                System.out.println("Jogada realizada com sucesso!\n");
+                                MESA.imprimeTabuleiro();
+                            }
                         }
                     }
                 }
@@ -223,7 +232,7 @@ public class Jogo {
             // Armazena as jogadas validas que serao salvas no arquivo:
             if (!jogada.equals("salvar") )
             {
-                this.jogadasValidas.add(jogada);
+                this.JOGADASVALIDAS.add(jogada);
             }
 
             return true;
@@ -258,7 +267,7 @@ public class Jogo {
         // A funcao Math.floor arredonda as casas decimais para baixo.
         /* Somo 1 a alt para que a primeira jogada do JOGADOR1 seja contabilizada
             e somo 2 a alt para que a rodada inicial seja 1, ao inves de 0. */
-        System.out.println("\nRodada: " + (int) Math.floor( (alt + 2) / 2) + " (Aguardando " + jogador.getCorPecas() + ")");
+        System.out.println("\nRodada: " + (int) Math.floor( (alt + 2) / 2) + " (Aguardando " + jogador.getCORPECAS() + ")");
 
         // Imprime as pecas de cada jogador que ja foram capturadas:
         this.imprimeCapturadas(JOGADOR1);
@@ -271,19 +280,19 @@ public class Jogo {
         ArrayList<String> pecasCapturadas = new ArrayList();
 
         // Se o jogador que joga com as pecas brancas, n recebe 16, caso contrario, n recebe 32:
-        int n = (jogador.getCorPecas() == "brancas") ? 16 : 32;
+        int n = (jogador.getCORPECAS().equals("brancas") ) ? 16 : 32;
 
         // Se o jogador que joga com as pecas brancas, i recebe 0, caso contrario, i recebe 16:
-        for (int i = (jogador.getCorPecas() == "brancas") ? 0 : 16; i < n; i++)
+        for (int i = (jogador.getCORPECAS().equals("brancas") ) ? 0 : 16; i < n; i++)
         {
-            if (pecas[i].isCapturado() )
+            if (PECAS[i].isCapturado() )
             {
                 // Coloco "" + para converter o desenho da Peca de char para String:
-                pecasCapturadas.add("" + pecas[i].desenho() );
+                pecasCapturadas.add("" + PECAS[i].desenho() );
             }
         }
 
-        System.out.println("Pecas " + jogador.getCorPecas() + " capturadas: " + pecasCapturadas);
+        System.out.println("Pecas " + jogador.getCORPECAS() + " capturadas: " + pecasCapturadas);
     }
 
     // Serve para salvar o jogo:
@@ -300,10 +309,10 @@ public class Jogo {
             PrintWriter pw = new PrintWriter(fw);
             System.out.println("O arquivo foi escrito com sucesso!\n");
 
-            int n = this.jogadasValidas.size();
+            int n = this.JOGADASVALIDAS.size();
             for (int i = 0; i < n; i++)
             {
-                pw.println(this.jogadasValidas.get(i) );
+                pw.println(this.JOGADASVALIDAS.get(i) );
             }
             pw.close();
         }
@@ -375,75 +384,75 @@ public class Jogo {
         this.JOGADOR2 = new Jogador("pretas");
 
         /*--> CRIA E ADICIONA AS 32 PECAS AS SUAS RESPECTIVAS CASAS: <--*/
-        this.pecas = new Peca[32];
+        this.PECAS = new Peca[32];
 
 /*--> 16 Pecas Brancas (indices de 0 a 15): <--*/
     // 8 Peoes Brancos:
         for (int id = 0; id < 8; id++) {
-            this.pecas[id] = new Peao("brc");
-            this.MESA.CASAS[1][id].setPecaPosicao(pecas[id]);
+            this.PECAS[id] = new Peao("brc");
+            this.MESA.CASAS[1][id].setPecaPosicao(PECAS[id]);
         }
 
     // Torre Branca (Esquerda):
-        this.pecas[8] = new Torre("brc");
-        this.MESA.CASAS[0][0].setPecaPosicao(pecas[8]);
+        this.PECAS[8] = new Torre("brc");
+        this.MESA.CASAS[0][0].setPecaPosicao(PECAS[8]);
     // Torre Branca (Direita):
-        this.pecas[9] = new Torre("brc");
-        this.MESA.CASAS[0][7].setPecaPosicao(pecas[9]);
+        this.PECAS[9] = new Torre("brc");
+        this.MESA.CASAS[0][7].setPecaPosicao(PECAS[9]);
     // Cavalo Branco (Esquerda):
-        this.pecas[10] = new Cavalo("brc");
-        this.MESA.CASAS[0][1].setPecaPosicao(pecas[10]);
+        this.PECAS[10] = new Cavalo("brc");
+        this.MESA.CASAS[0][1].setPecaPosicao(PECAS[10]);
     // Cavalo Branco (Direita):
-        this.pecas[11] = new Cavalo("brc");
-        this.MESA.CASAS[0][6].setPecaPosicao(pecas[11]);
+        this.PECAS[11] = new Cavalo("brc");
+        this.MESA.CASAS[0][6].setPecaPosicao(PECAS[11]);
     // Bispo Branco (Esquerda):
-        this.pecas[12] = new Bispo("brc");
-        this.MESA.CASAS[0][2].setPecaPosicao(pecas[12]);
+        this.PECAS[12] = new Bispo("brc");
+        this.MESA.CASAS[0][2].setPecaPosicao(PECAS[12]);
     // Bispo Branco (Direita):
-        this.pecas[13] = new Bispo("brc");
-        this.MESA.CASAS[0][5].setPecaPosicao(pecas[13]);
+        this.PECAS[13] = new Bispo("brc");
+        this.MESA.CASAS[0][5].setPecaPosicao(PECAS[13]);
     // Dama Branca:
-        this.pecas[14] = new Dama("brc");
-        this.MESA.CASAS[0][3].setPecaPosicao(pecas[14]);
+        this.PECAS[14] = new Dama("brc");
+        this.MESA.CASAS[0][3].setPecaPosicao(PECAS[14]);
     // Rei Branco:
-        this.pecas[15] = new Rei("brc");
-        this.MESA.CASAS[0][4].setPecaPosicao(pecas[15]);
+        this.PECAS[15] = new Rei("brc");
+        this.MESA.CASAS[0][4].setPecaPosicao(PECAS[15]);
 
 /*--> 16 Pecas Pretas (indices de 16 a 31): <--*/
     // 8 Peoes Pretos:
         for (int id = 16; id < 24; id++) {
-            this.pecas[id] = new Peao("prt");
+            this.PECAS[id] = new Peao("prt");
             // Faco (id - 16) pois a primeira posicao da matriz eh 0 e o id comeca em 16:
-            this.MESA.CASAS[6][id - 16].setPecaPosicao(pecas[id]);
+            this.MESA.CASAS[6][id - 16].setPecaPosicao(PECAS[id]);
         }
 
     // Torre Preta (Esquerda):
-        this.pecas[24] = new Torre("prt");
-        this.MESA.CASAS[7][0].setPecaPosicao(pecas[24]);
+        this.PECAS[24] = new Torre("prt");
+        this.MESA.CASAS[7][0].setPecaPosicao(PECAS[24]);
     // Torre Preta (Direita):
-        this.pecas[31] = new Torre("prt");
-        this.MESA.CASAS[7][7].setPecaPosicao(pecas[31]);
+        this.PECAS[31] = new Torre("prt");
+        this.MESA.CASAS[7][7].setPecaPosicao(PECAS[31]);
     // Cavalo Preto (Esquerda):
-        this.pecas[25] = new Cavalo("prt");
-        this.MESA.CASAS[7][1].setPecaPosicao(pecas[25]);
+        this.PECAS[25] = new Cavalo("prt");
+        this.MESA.CASAS[7][1].setPecaPosicao(PECAS[25]);
     // Cavalo Preto (Direita):
-        this.pecas[30] = new Cavalo("prt");
-        this.MESA.CASAS[7][6].setPecaPosicao(pecas[30]);
+        this.PECAS[30] = new Cavalo("prt");
+        this.MESA.CASAS[7][6].setPecaPosicao(PECAS[30]);
     // Bispo Preto (Esquerda):
-        this.pecas[26] = new Bispo("prt");
-        this.MESA.CASAS[7][2].setPecaPosicao(pecas[26]);
+        this.PECAS[26] = new Bispo("prt");
+        this.MESA.CASAS[7][2].setPecaPosicao(PECAS[26]);
     // Bispo Preto (Direita):
-        this.pecas[29] = new Bispo("prt");
-        this.MESA.CASAS[7][5].setPecaPosicao(pecas[29]);
+        this.PECAS[29] = new Bispo("prt");
+        this.MESA.CASAS[7][5].setPecaPosicao(PECAS[29]);
     // Dama Preta:
-        this.pecas[27] = new Dama("prt");
-        this.MESA.CASAS[7][3].setPecaPosicao(pecas[27]);
+        this.PECAS[27] = new Dama("prt");
+        this.MESA.CASAS[7][3].setPecaPosicao(PECAS[27]);
     // Rei Preto:
-        this.pecas[28] = new Rei("prt");
-        this.MESA.CASAS[7][4].setPecaPosicao(pecas[28]);
+        this.PECAS[28] = new Rei("prt");
+        this.MESA.CASAS[7][4].setPecaPosicao(PECAS[28]);
 
         // Cria um objeto do tipo ArrayList para armazenar os movimentos validos:
-        this.jogadasValidas = new ArrayList();
+        this.JOGADASVALIDAS = new ArrayList();
     }
 
     // <<< Getters e Setters da classe Jogo: >>>

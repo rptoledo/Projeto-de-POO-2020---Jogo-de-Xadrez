@@ -30,8 +30,8 @@ public class Jogador
  * ================================ ATRIBUTOS ================================
  * =========================================================================== */
     private final String NOME; // Usado para armazenar o nome do Jogador.
-    private String corPecas; // Usado para armazenar a cor das pecas do Jogador
-    private Peca [] pecasPossuidas; // Usado para armazenar as 16 pecas do Jogador.
+    private final String CORPECAS; // Usado para armazenar a cor das pecas do Jogador
+    private final Peca [] PECASPOSSUIDAS; // Usado para armazenar as 16 pecas do Jogador.
     
     
 /* ===========================================================================
@@ -97,11 +97,11 @@ public class Jogador
             }
         }
         
-        this.corPecas = corPecas;
-        this.pecasPossuidas = new Peca[16];
+        this.CORPECAS = corPecas;
+        this.PECASPOSSUIDAS = new Peca[16];
         
         System.out.println("O jogador " + this.getNOME() + " foi criado com sucesso!");
-        System.out.println(this.getNOME() + " vai jogar com as pecas " + this.corPecas + ".");
+        System.out.println(this.getNOME() + " vai jogar com as pecas " + this.CORPECAS + ".");
     }
      
     // <<< Getters e Setters da classe Jogador: >>>
@@ -109,7 +109,7 @@ public class Jogador
         return NOME;
     }
 
-    public String getCorPecas() {
-        return corPecas;
+    public String getCORPECAS() {
+        return CORPECAS;
     }
 }
