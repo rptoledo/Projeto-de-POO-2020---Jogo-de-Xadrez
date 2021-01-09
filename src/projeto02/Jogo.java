@@ -58,18 +58,18 @@ public class Jogo
         // Carrega o jogo na variavel jogadasValidasAux:
         ArrayList<String> jogadasValidasAux = new ArrayList();
 
-        char escolhaCont;
+        String escolhaContinuar;
 
         do
         {
-            escolhaCont = desejaContinuar();
-            if (escolhaCont != 's' && escolhaCont != 'n')
+            escolhaContinuar = desejaContinuar();
+            if (!escolhaContinuar.equals("s") && !escolhaContinuar.equals("n"))
             {
                 System.out.println("A escolha eh invalida.");
             }
-        } while (escolhaCont != 's' && escolhaCont != 'n');
+        } while (!escolhaContinuar.equals("s") && !escolhaContinuar.equals("n"));
 
-        if (JOGADASVALIDAS.isEmpty() && escolhaCont == 's')
+        if (JOGADASVALIDAS.isEmpty() && escolhaContinuar.equals("s"))
         {
             retomaJogo(jogadasValidasAux);
         }
@@ -113,7 +113,7 @@ public class Jogo
                     }
                     else if (alt % 2 == 1)
                     {
-                        brancasEmXeque = 0;
+                        pretasEmXeque = 0;
                         System.out.println("As peças pretas estão em xeque");
                     }
                 }
@@ -169,16 +169,13 @@ public class Jogo
                     }
                 }
 
-                System.out.println("Brancas: " + brancasEmXeque);
-                System.out.println("Pretas: " + pretasEmXeque);
-
-                // Rei preto for capturado, o branco ganha
+                // Se o rei preto for capturado, o jogador das pecas brancas ganha:
                 if (this.PECAS[28].isCapturado() == true)
                 {
                     System.out.println("O jogador " + JOGADOR1.getNOME() + " das peças brancas ganhou!");
                     break;
-                    // Rei branco for capturado, o preto ganha 
                 }
+                // Se o rei branco for capturado, o jogador das pecas pretas ganha:
                 else if (this.PECAS[15].isCapturado() == true)
                 {
                     System.out.println("O jogador " + JOGADOR2.getNOME() + " das peças pretas ganhou!");
@@ -265,12 +262,12 @@ public class Jogo
             }
             else
             {
-                throw new Error("A formatacao da jogada esta incorreta!\n");
+                throw new Exception("A formatacao da jogada esta incorreta!\n");
             }
 
             return true;
         }
-        catch (Error e)
+        catch (Exception e)
         {
             System.out.println(e.getMessage());
 
@@ -288,6 +285,11 @@ public class Jogo
           && jogada.charAt(6) == ' ' && jogada.charAt(7) == '-' && jogada.charAt(8) == '>' && jogada.charAt(9) == ' '
           && jogada.charAt(10) == '(' && jogada.charAt(12) == ',' && jogada.charAt(13) == ' ' && jogada.charAt(15) == ')')
         {
+            if (Character.isLetter(jogada.charAt(1)) || Character.isDigit(jogada.charAt(4))
+            || Character.isLetter(jogada.charAt(11)) || Character.isDigit(jogada.charAt(14)))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -311,17 +313,16 @@ public class Jogo
     private void imprimeCapturadas(Jogador jogador)
     {
         ArrayList<String> pecasCapturadas = new ArrayList();
+        Peca [] pecasJogador = jogador.getPECASPOSSUIDAS();
 
-        // Se o jogador que joga com as pecas brancas, n recebe 16, caso contrario, n recebe 32:
-        int n = (jogador.getCORPECAS().equals("brancas")) ? 16 : 32;
 
         // Se o jogador que joga com as pecas brancas, i recebe 0, caso contrario, i recebe 16:
-        for (int i = (jogador.getCORPECAS().equals("brancas")) ? 0 : 16; i < n; i++)
+        for (int i = 0; i < pecasJogador.length; i++)
         {
-            if (PECAS[i].isCapturado())
+            if (pecasJogador[i].isCapturado())
             {
                 // Coloco "" + para converter o desenho da Peca de char para String:
-                pecasCapturadas.add("" + PECAS[i].desenho());
+                pecasCapturadas.add("" + pecasJogador[i].desenho());
             }
         }
 
@@ -386,15 +387,15 @@ public class Jogo
         }
     }
 
-    private char desejaContinuar()
+    private String desejaContinuar()
     {
         Scanner leEscolha = new Scanner(System.in);
 
         System.out.print("\n\nDeseja continuar um jogo salvo? Caso deseje, digite 'S', caso contrario, digite 'N': ");
-        char escolha = leEscolha.next().charAt(0);
+        String escolha = leEscolha.nextLine();
 
         // Converte a escolha para letras minusculas:
-        escolha = Character.toLowerCase(escolha);
+        escolha = escolha.toLowerCase();
 
         return escolha;
     }
@@ -407,12 +408,6 @@ public class Jogo
     {
         // O jogo comeca no estado "inicio":
         this.estado = "inicio";
-
-        // Cria o Primeiro Jogador, que controla as Pecas Brancas:
-        this.JOGADOR1 = new Jogador("brancas");
-
-        // Cria o Segundo Jogador, que controla as Pecas Pretas:
-        this.JOGADOR2 = new Jogador("pretas");
 
     /*--> CRIA E AS 32 PECAS: <--*/
         this.PECAS = new Peca[32];
@@ -469,8 +464,13 @@ public class Jogo
         }
         catch (CorPecaException e)
         {
-            System.out.println("O parametro para a cor da peca eh invalido!\n");
+            System.out.println("O parametro para a cor da peca eh invalido!");
         }
+        
+        // Cria o Primeiro Jogador, que controla as Pecas Brancas:
+        this.JOGADOR1 = new Jogador("brancas", PECAS);
+        // Cria o Segundo Jogador, que controla as Pecas Pretas:
+        this.JOGADOR2 = new Jogador("pretas", PECAS);
         
         // Cria o Tabuleiro:
         this.MESA = new Tabuleiro(PECAS);

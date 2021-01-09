@@ -58,7 +58,7 @@ public class Jogador
  * ============================ METODOS ESPECIAIS ============================
  * =========================================================================== */
 // <<< Construtor da classe Jogador: >>>
-    public Jogador(String corPecas)
+    public Jogador(String corPecas, Peca[] pecas)
     {
         Scanner leNome = new Scanner(System.in);
         String nomeTestado;
@@ -88,6 +88,18 @@ public class Jogador
 
         this.CORPECAS = corPecas;
         this.PECASPOSSUIDAS = new Peca[16];
+        
+        int aux = 0;
+        
+        if (CORPECAS.equals("pretas"))
+        {
+            aux = 16;
+        }
+        
+        for (int i = 0; i < 16; i++)
+        {
+            PECASPOSSUIDAS[i] = pecas[i + aux];    
+        }
 
         System.out.println("O jogador " + this.getNOME() + " foi criado com sucesso!");
         System.out.println(this.getNOME() + " vai jogar com as pecas " + this.CORPECAS + ".");
@@ -102,5 +114,10 @@ public class Jogador
     public String getCORPECAS()
     {
         return CORPECAS;
+    }
+    
+    public Peca [] getPECASPOSSUIDAS()
+    {
+        return PECASPOSSUIDAS;
     }
 }

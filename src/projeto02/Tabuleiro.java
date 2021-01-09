@@ -308,60 +308,43 @@ public class Tabuleiro
         // O movimento que o usuario deseja fazer esta fora dos limites do tabuleiro:
         if (checaTabuleiro(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
         {
-            throw new Error("O movimento pretendido esta fora dos limites do tabuleiro!\n");
+            throw new Exception("O movimento pretendido esta fora dos limites do tabuleiro!\n");
         }
         // Nao ha nenhuma peca na casa de origem:
         else if (pecaOrigem == null)
         {
-            throw new Error("Voce nao possui peca para mover, na posicao que digitou!\n");
+            throw new Exception("Voce nao possui peca para mover, na posicao que digitou!\n");
         }
         // Ha uma peca na casa de origem, mas ela eh do adversario:
         else if ((vez == 0 && pecaOrigem.getCor().equals("prt")) || (vez == 1 && pecaOrigem.getCor().equals("brc")))
         {
-            throw new Error("A peca que voce esta tentando mover eh do seu adversario!\n");
+            throw new Exception("A peca que voce esta tentando mover eh do seu adversario!\n");
         }
         // O jogador tem uma peca sua na casa de origem, mas esta tentando capturar sua propria peca:
         else if (pecaDestino != null && ((vez == 0 && pecaDestino.getCor().equals("brc")) || (vez == 1 && pecaDestino.getCor().equals("prt")))) {
-            throw new Error("A peca que voce esta tentando capturar eh sua!\n");
+            throw new Exception("A peca que voce esta tentando capturar eh sua!\n");
         }
         // A casa de origem eh a mesma que a casa de destino, nesse caso, nao ha movimento:
         else if (linhaOrigem == linhaDestino && colunaOrigem == colunaDestino)
         {
-            throw new Error("Voce nao esta realizando um movimento!\n");
+            throw new Exception("Voce nao esta realizando um movimento!\n");
         }
-        
-        
-        else if (pecaOrigem.desenho() == 'p' || pecaOrigem.desenho() == 'P' && pecaDestino == null)
-        {    
-            if (pecaOrigem.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
-            {
-                throw new Error("O movimento eh invalido para o tipo de peca selecionada!\n");
-            }
-        }
-        else if (pecaOrigem.desenho() != 'p' && pecaOrigem.desenho() != 'P')
-        {
-            if (pecaOrigem.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
-            {
-                throw new Error("O movimento eh invalido para o tipo de peca selecionada!\n");
-            }
-        }
-        
         
         // Ha pelo menos uma peca entre a casa de origem e a casa de destino, impedindo o movimento:
         else if (caminhoLivre(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) == false)
         {
-            throw new Error("Voce nao pode passar por cima das outras pecas!\n");
+            throw new Exception("Voce nao pode passar por cima das outras pecas!\n");
         }
         // O movimento da peca nao foi realizado:
         if (movimentaPeca(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino, false) == false)
         {
-            throw new Error("O movimento eh invalido para o tipo de peca selecionada!\n");
+            throw new Exception("O movimento eh invalido para o tipo de peca selecionada!\n");
         }
     }
 
     /* -> Realiza a movimentacao das pecas. Esse metodo so eh chamado se todos os metodos anteriores retorarem true.
            -> Retorna true, se o movimento tiver sido realizado, ou false, caso contrário. */
-    private boolean movimentaPeca(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check)
+    private boolean movimentaPeca(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean xequeAtivo)
     {
         Peca pecaOrigem = CASAS[linOrigem][colOrigem].getPecaPosicao();
         Peca pecaDestino = CASAS[linDestino][colDestino].getPecaPosicao();
@@ -376,13 +359,28 @@ public class Tabuleiro
             }
         }
         // A casa de destino esta vazia, na simulacao, logo o rei nao eh atingido:
-        else if (pecaDestino == null && check == true)
+        else if (pecaDestino == null && xequeAtivo == true)
         {
             return false;
         }
         
+        else if (pecaOrigem.desenho() == 'p' || pecaOrigem.desenho() == 'P' && pecaDestino == null)
+        {    
+            if (pecaOrigem.checaMovimento(linOrigem, colOrigem, linDestino, colDestino) == false)
+            {
+                throw new Exception("O movimento eh invalido para o tipo de peca selecionada!\n");
+            }
+        }
+        else if (pecaOrigem.desenho() != 'p' && pecaOrigem.desenho() != 'P')
+        {
+            if (pecaOrigem.checaMovimento(linOrigem, colOrigem, linDestino, colDestino) == false)
+            {
+                throw new Exception("O movimento eh invalido para o tipo de peca selecionada!\n");
+            }
+        }
+        
         // Como nao esta em xeque, portanto, as acoes precisam ser permanentes:
-        if (check == false)
+        if (xequeAtivo == false)
         {
             // Ocupa a casa de destino com a peca da origem, passando PecaOrigem para o atributo pecaPosicao:
             CASAS[linDestino][colDestino].setPecaPosicao(pecaOrigem);
@@ -398,7 +396,7 @@ public class Tabuleiro
     
     /* -> Realiza a captura das pecas. Esse metodo so eh chamado dentro do metodo movimentaPeca().
            -> Retorna true, se a captura tiver sido realizada, ou false, caso contrário. */
-    private boolean capturaPeao(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean check)
+    private boolean capturaPeao(int linOrigem, int colOrigem, int linDestino, int colDestino, boolean xequeAtivo)
     {
         Peca pecaOrigem = CASAS[linOrigem][colOrigem].getPecaPosicao();
         Peca pecaDestino = CASAS[linDestino][colDestino].getPecaPosicao();
@@ -432,7 +430,7 @@ public class Tabuleiro
         }
 
         // O atributo capturado, da peca do destino eh mudado pra true:
-        if (check == false) {
+        if (xequeAtivo == false) {
             pecaDestino.setCapturado();
         }
 
@@ -459,7 +457,6 @@ public class Tabuleiro
                     colRei = col;
                     reiEmXeque = CASAS[linRei][colRei].getPecaPosicao();
                     break;
-
                 }
                 // A vez 1 eh do jogador que controla as pecas pretas:
                 else if (vez == 1 && CASAS[lin][col].getPecaPosicao() != null && CASAS[lin][col].getPecaPosicao().desenho() == 'R')
